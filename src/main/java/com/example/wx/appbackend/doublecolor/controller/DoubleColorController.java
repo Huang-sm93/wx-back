@@ -1,6 +1,7 @@
 package com.example.wx.appbackend.doublecolor.controller;
 
 import com.example.wx.appbackend.common.ServiceData;
+import com.example.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
 import com.example.wx.appbackend.doublecolor.service.DoubleColorService;
 import com.example.wx.appbackend.test.CellInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,14 @@ public class DoubleColorController {
     public ServiceData<List<CellInfo>> getUser(@RequestBody Map<String, Object> map)throws Exception{
         ServiceData sd = new ServiceData();
         sd.setBo(doubleColorService.getPage(map));
+        return sd;
+    }
+
+    //根据条件生成接口
+    @PostMapping("/generatebypara")
+    public ServiceData<List<CellInfo>> generateByPara(@RequestBody GenerateNumReqDTO reqDTO)throws Exception{
+        ServiceData sd = new ServiceData();
+        sd.setBo(doubleColorService.generateByPara(reqDTO));
         return sd;
     }
 

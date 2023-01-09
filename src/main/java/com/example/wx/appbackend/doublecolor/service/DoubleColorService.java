@@ -1,5 +1,6 @@
 package com.example.wx.appbackend.doublecolor.service;
 
+import com.example.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
 import com.example.wx.appbackend.test.CellInfo;
 
 import java.util.List;
@@ -13,4 +14,6 @@ import java.util.Map;
 public interface DoubleColorService {
 
     List<CellInfo> getPage(Map<String, Object> map);
+
+    List<CellInfo> generateByPara(GenerateNumReqDTO reqDTO);
 }

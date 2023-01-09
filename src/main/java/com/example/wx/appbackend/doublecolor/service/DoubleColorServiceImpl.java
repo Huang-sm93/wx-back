@@ -1,5 +1,6 @@
 package com.example.wx.appbackend.doublecolor.service;
 
+import com.example.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
 import com.example.wx.appbackend.test.CellInfo;
 import com.example.wx.appbackend.test.ReadExcelUtility;
 import org.springframework.stereotype.Service;
@@ -13,5 +14,11 @@ public class DoubleColorServiceImpl implements DoubleColorService {
     @Override
     public List<CellInfo> getPage(Map<String, Object> map) {
         return ReadExcelUtility.getArrFileName("历史记录.xls",0, 10);
+    }
+
+    @Override
+    public List<CellInfo> generateByPara(GenerateNumReqDTO reqDTO) {
+        List<CellInfo> res = ReadExcelUtility.getArrFileName("历史记录.xls",0, 10);
+        return res;
     }
 }
