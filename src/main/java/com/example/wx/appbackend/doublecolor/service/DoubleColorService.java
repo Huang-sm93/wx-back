@@ -15,5 +15,5 @@ public interface DoubleColorService {
 
     List<CellInfo> getPage(Map<String, Object> map);
 
-    List<CellInfo> generateByPara(GenerateNumReqDTO reqDTO);
+    List<int[]> generateByPara(GenerateNumReqDTO reqDTO);
 }
