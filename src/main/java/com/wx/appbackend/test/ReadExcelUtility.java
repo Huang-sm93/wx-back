@@ -228,16 +228,10 @@ public class ReadExcelUtility {
             // 创建第一张工作表
                 WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
                 // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+                int index = 0;
                 for (int i = 0; i < list.size(); i++) {
+
                     int[] temp = list.get(i);
-                    // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
-                    Number number1 = new Number( 0 , i, temp[0]);
-                    Number number2 = new Number( 1 , i, temp[1]);
-                    Number number3 = new Number( 2 , i, temp[2]);
-                    Number number4 = new Number( 3 , i, temp[3]);
-                    Number number5 = new Number( 4 , i, temp[4]);
-                    Number number6 = new Number( 5 , i, temp[5]);
-                    Number number7 = new Number( 6 , i, temp[6]);
                     int countRed = 0;
                     countRed = countRed + (lastTime.contains(temp[0]) ? 1 :0);
                     countRed = countRed + (lastTime.contains(temp[1]) ? 1 :0);
@@ -245,9 +239,7 @@ public class ReadExcelUtility {
                     countRed = countRed + (lastTime.contains(temp[3]) ? 1 :0);
                     countRed = countRed + (lastTime.contains(temp[4]) ? 1 :0);
                     countRed = countRed + (lastTime.contains(temp[5]) ? 1 :0);
-                    Number number8 = new Number( 7 , i, countRed);
                     int countBlue = temp[6] == lastTime.get(6) ? 1 : 0;
-                    Number number9 = new Number( 8 , i, countBlue);
                     int money = 0;
                     int sum = countBlue+countRed;
                     switch (sum){
@@ -255,7 +247,7 @@ public class ReadExcelUtility {
                             money=5000000;
                             break;
                         case 6:
-                            money= countBlue==1 ? 3000 : 300000;
+                            money = countBlue == 1 ? 3000 : 200000;
                             break;
                         case 5:
                             money=200;
@@ -267,9 +259,19 @@ public class ReadExcelUtility {
                             money = countBlue == 1 ? 5 : 0;
                             break;
                     }
-
-                    Number number10 = new Number(9, i, money);
-
+                    if (money < 5){continue;}
+                    // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                    Number number1 = new Number( 0 , index, temp[0]);
+                    Number number2 = new Number( 1 , index, temp[1]);
+                    Number number3 = new Number( 2 , index, temp[2]);
+                    Number number4 = new Number( 3 , index, temp[3]);
+                    Number number5 = new Number( 4 , index, temp[4]);
+                    Number number6 = new Number( 5 , index, temp[5]);
+                    Number number7 = new Number( 6 , index, temp[6]);
+                    Number number8 = new Number( 7 , index, countRed);
+                    Number number9 = new Number( 8 , index, countBlue);
+                    Number number10 = new Number(9, index, money);
+                    index++;
                     try {
                         sheet.addCell(number1);
                         sheet.addCell(number2);
@@ -281,7 +283,6 @@ public class ReadExcelUtility {
                         sheet.addCell(number8);
                         sheet.addCell(number9);
                         sheet.addCell(number10);
-
                     } catch (WriteException e) {
                         throw new RuntimeException(e);
                     }
