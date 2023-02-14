@@ -12,16 +12,16 @@ import java.util.*;
  * Created by Intellij IDEA.
  * User:  sm.huang
  * Date:  2022/10/26
-    排除上几期同时考虑更前几期出现次数作为权重
+    排除上几期
  */
-public class TestRemoveLastTimeNumber {
+public class TestRemoveLastTimeNumberWithoutInfactor {
     public static void main(String[] args) throws WriteException, IOException {
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook( new File("预测结果.xls" ));
             Random random = new Random();
 
-            Map<String, List<Integer>> res = getListByParams(2, 3, 5);
+            Map<String, List<Integer>> res = getListByParams(2);
             List<int[]> list = getResult(res.get("red"), res.get("blue"), random, 10000);
             ReadExcelUtility.writeFile(list, book, 0);
 
@@ -40,22 +40,29 @@ public class TestRemoveLastTimeNumber {
 
     public static List<int[]> getResult(List<Integer> allBlue, List<Integer> allRed, Random random, int outListSize){
         List<int[]> result = new ArrayList<>();
-        for (int i = 0; i < outListSize; i++) {
-            List<Integer> blueTemp = new ArrayList<>(allBlue);
+        int countSize = 0;
+        while(countSize < outListSize){
             List<Integer> redTemp = new ArrayList<>(allRed);
+            List<Integer> blueTemp = new ArrayList<>(allBlue);
             int temp[] = new int[7];
             temp[6] = 40;
             for (int j = 0; j < 6; j++) {
-                temp[j] = getRandomNum(blueTemp, random);
+                temp[j] = getRandomNum(redTemp, random);
             }
             Arrays.sort(temp);
-            temp[6] = getRandomNum(redTemp, random);
+            temp[6] = getRandomNum(blueTemp, random);
             //判断是否与之前的历史记录重复
             if (historyList.contains(temp)){
                 continue;
             }
+            //判断数字和大小
+            int sum = temp[0]+temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6];
+            if (sum < 50 || sum > 150){
+                continue;
+            }
             historyList.add(temp);
             result.add(temp);
+            countSize++;
         }
 
 
@@ -66,45 +73,24 @@ public class TestRemoveLastTimeNumber {
      * 没有历史记录，完全随机，但是排除上几期数字
      * @return
      */
-    public static Map<String, List<Integer>> getListByParams(int removeLastTimes, int usedRedTimes, int usedBlueTimes){
-        List<CellInfo> historyList = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\历史记录.xls",0,
-                usedBlueTimes+removeLastTimes);
+    public static Map<String, List<Integer>> getListByParams(int removeLastTimes){
         Set<Integer> lastSet = ReadExcelUtility.getLastNumbers(removeLastTimes);
         Map<String, List<Integer>> result = new HashMap<>();
         List<Integer> allBlue = new ArrayList<>();
         List<Integer> allRed = new ArrayList<>();
 
-        if (historyList.size() < 1){
-            return null;
-        }
         int[] blueCount = new int[17];
         int[] redCount = new int[34];
-        for (int j = removeLastTimes; j < usedBlueTimes+removeLastTimes; j++) {
-            CellInfo cellInfo = historyList.get(j);
-            blueCount[cellInfo.values[6]] = blueCount[cellInfo.values[6]] + 1;
-            if (j < usedRedTimes){
-                redCount[cellInfo.values[0]] = redCount[cellInfo.values[0]] + 1;
-                redCount[cellInfo.values[1]] = redCount[cellInfo.values[1]] + 1;
-                redCount[cellInfo.values[2]] = redCount[cellInfo.values[2]] + 1;
-                redCount[cellInfo.values[3]] = redCount[cellInfo.values[3]] + 1;
-                redCount[cellInfo.values[4]] = redCount[cellInfo.values[4]] + 1;
-                redCount[cellInfo.values[5]] = redCount[cellInfo.values[5]] + 1;
-            }
-        }
 
         for (int i = 1; i < redCount.length; i++) {
             if (lastSet.contains(redCount[i])){
                 continue;
             }
-            for (int j = 0; j < usedRedTimes+1 - redCount[i]; j++) {
-                allRed.add(i);
-            }
+            allRed.add(i);
         }
 
         for (int i = 1; i < blueCount.length; i++) {
-            for (int j = 0; j < usedBlueTimes+1 - blueCount[i]; j++) {
-                allBlue.add(i);
-            }
+            allBlue.add(i);
         }
 
         result.put("red", allRed);

@@ -259,7 +259,7 @@ public class ReadExcelUtility {
                             money = countBlue == 1 ? 5 : 0;
                             break;
                     }
-                    if (money < 5){continue;}
+//                    if (money < 5){continue;}
                     // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                     Number number1 = new Number( 0 , index, temp[0]);
                     Number number2 = new Number( 1 , index, temp[1]);
