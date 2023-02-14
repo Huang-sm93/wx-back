@@ -16,25 +16,27 @@ import java.util.*;
  */
 public class TestRemoveLastTimeNumberWithoutInfactor {
     public static void main(String[] args) throws WriteException, IOException {
-        WritableWorkbook book = null;
-        try {
-            book = Workbook.createWorkbook( new File("预测结果.xls" ));
-            Random random = new Random();
 
-            Map<String, List<Integer>> res = getListByParams(2);
-            List<int[]> list = getResult(res.get("red"), res.get("blue"), random, 10000);
-            ReadExcelUtility.writeFile(list, book, 0);
-
-            book.write();
-        } catch (WriteException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if (book != null){
-                book.close();
-            }
-        }
+//        WritableWorkbook book = null;
+//        try {
+//            book = Workbook.createWorkbook( new File("预测结果.xls" ));
+//            Random random = new Random();
+//
+//            Map<String, List<Integer>> res = getListByParams(2);
+//            List<int[]> list = getResult(res.get("red"), res.get("blue"), random, 10000);
+//            ReadExcelUtility.writeFile(list, book, 0);
+//
+//            book.write();
+//        } catch (WriteException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }finally {
+//            if (book != null){
+//                book.close();
+//            }
+//        }
+        su();
     }
 
 
@@ -57,7 +59,7 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
             }
             //判断数字和大小
             int sum = temp[0]+temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6];
-            if (sum < 50 || sum > 150){
+            if (sum < 70 || sum > 109){
                 continue;
             }
             historyList.add(temp);
@@ -112,5 +114,48 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
     public static List<int[]> historyList;
     static {
         historyList = ReadExcelUtility.getAllList();
+    }
+
+    public static void su() throws WriteException, IOException {
+        List<Integer> allBlue = new ArrayList<>();
+        List<Integer> allRed = new ArrayList<>();
+        Set<Integer> lastSet = new HashSet<>();
+        int[] ins = {2,3,14,21,29,32,6,7,18,23,27,30};
+        for (int in : ins) {
+            lastSet.add(in);
+        }
+        int[] blueCount = new int[17];
+        int[] redCount = new int[34];
+
+        for (int i = 1; i < redCount.length; i++) {
+            if (lastSet.contains(i)){
+                continue;
+            }
+            allRed.add(i);
+        }
+
+        for (int i = 1; i < blueCount.length; i++) {
+            allBlue.add(i);
+        }
+        Random random = new Random();
+        List<int[]> list = getResult(allBlue,allRed, random, 10000);
+        for (int[] ints : list) {
+            System.out.println(ints[0]+"  " + ints[1] + "  "+ ints[2] + "  "+ ints[3] + "  "+ ints[4] + "  "+ ints[5] + "  "+ ints[6] + "  ");
+        }
+        WritableWorkbook book = null;
+        try {
+            book = Workbook.createWorkbook( new File("预测结果.xls" ));
+            ReadExcelUtility.writeFile12(list, book, 0);
+
+            book.write();
+        } catch (WriteException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (book != null){
+                book.close();
+            }
+        }
     }
 }
