@@ -1,16 +1,17 @@
 package com.wx.appbackend.test;
 
+import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.*;
 import jxl.write.Number;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -109,6 +110,8 @@ public class ReadExcelUtility {
             Sheet sheet = workbook.getSheet(0);
             int maxLine = usedTimes < sheet.getRows() ? usedTimes : sheet.getRows();
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for (int i = start; i < maxLine; i++) {
                 CellInfo cellInfo = new CellInfo();
                 int[] temp = new int[7];
@@ -121,9 +124,18 @@ public class ReadExcelUtility {
                 temp[5] = Integer.parseInt(sheet.getCell(5, i).getContents());
                 temp[6] = Integer.parseInt(sheet.getCell(6, i).getContents());
                 cellInfo.values = temp;
+                cellInfo.blueValue = temp[6];
+                cellInfo.redValues = new ArrayList<>();
+                cellInfo.redValues.add(temp[0]);
+                cellInfo.redValues.add(temp[1]);
+                cellInfo.redValues.add(temp[2]);
+                cellInfo.redValues.add(temp[3]);
+                cellInfo.redValues.add(temp[4]);
+                cellInfo.redValues.add(temp[5]);
                 cellInfo.countRedValues = Integer.parseInt(sheet.getCell(7, i).getContents());
                 cellInfo.countAllValues = Integer.parseInt(sheet.getCell(8, i).getContents());
-                cellInfo.date = sheet.getCell(9, i).getContents();
+                cellInfo.date = sheet.getCell(9, i).getContents() + " 21:15:00";
+                cellInfo.calendarDate = sdf.parse(cellInfo.date);
                 result.add(cellInfo);
             }
 
@@ -131,6 +143,8 @@ public class ReadExcelUtility {
             e.printStackTrace();
         } catch (BiffException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
 
         return result;
@@ -434,5 +448,98 @@ public class ReadExcelUtility {
         }
 
         return result;
+    }
+
+    /**
+     * 计算金额
+     * @param redAll
+     * @param blue
+     * @throws WriteException
+     * @throws IOException
+     */
+    public static void calculatePrize(List<Integer> redAll, int blue) throws WriteException, IOException {
+        Workbook workbook = null;
+        WritableWorkbook writableWorkbook = null;
+        try {
+            // 解析路径的file文件
+            workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\预测结果.xls"));
+            writableWorkbook = Workbook.createWorkbook( new File("预测结果2.xls" ));
+            WritableSheet writableSheet = writableWorkbook.createSheet( " 第"+1+"页 " , 0);
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                int[] temp = new int[7];
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                temp[0] = Integer.parseInt(sheet.getCell(0, i).getContents());
+                temp[1] = Integer.parseInt(sheet.getCell(1, i).getContents());
+                temp[2] = Integer.parseInt(sheet.getCell(2, i).getContents());
+                temp[3] = Integer.parseInt(sheet.getCell(3, i).getContents());
+                temp[4] = Integer.parseInt(sheet.getCell(4, i).getContents());
+                temp[5] = Integer.parseInt(sheet.getCell(5, i).getContents());
+                temp[6] = Integer.parseInt(sheet.getCell(6, i).getContents());
+                int countRed = 0;
+                countRed = countRed + (redAll.contains(temp[0]) ? 1 :0);
+                countRed = countRed + (redAll.contains(temp[1]) ? 1 :0);
+                countRed = countRed + (redAll.contains(temp[2]) ? 1 :0);
+                countRed = countRed + (redAll.contains(temp[3]) ? 1 :0);
+                countRed = countRed + (redAll.contains(temp[4]) ? 1 :0);
+                countRed = countRed + (redAll.contains(temp[5]) ? 1 :0);
+                int countBlue = temp[6] == blue ? 1 : 0;
+                int money = 0;
+                int sum = countBlue+countRed;
+                switch (sum){
+                    case 7:
+                        money=5000000;
+                        break;
+                    case 6:
+                        money= countBlue==1 ? 3000 : 300000;
+                        break;
+                    case 5:
+                        money=200;
+                        break;
+                    case 4:
+                        money=10;
+                        break;
+                    default:
+                        money = countBlue == 1 ? 5 : 0;
+                        break;
+                }
+
+                Number number1 = new Number( 0 , i, temp[0]);
+                Number number2 = new Number( 1 , i, temp[1]);
+                Number number3 = new Number( 2 , i, temp[2]);
+                Number number4 = new Number( 3 , i, temp[3]);
+                Number number5 = new Number( 4 , i, temp[4]);
+                Number number6 = new Number( 5 , i, temp[5]);
+                Number number7 = new Number( 6 , i, temp[6]);
+                Number number8 = new Number( 7 , i, money);
+                try {
+                    writableSheet.addCell(number1);
+                    writableSheet.addCell(number2);
+                    writableSheet.addCell(number3);
+                    writableSheet.addCell(number4);
+                    writableSheet.addCell(number5);
+                    writableSheet.addCell(number6);
+                    writableSheet.addCell(number7);
+                    writableSheet.addCell(number8);
+
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            writableWorkbook.write();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }finally {
+            if (writableWorkbook != null) {
+                writableWorkbook.close();
+            }
+            if (workbook != null) {
+                workbook.close();
+            }
+        }
     }
 }
