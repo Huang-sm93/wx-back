@@ -71,7 +71,7 @@ public class ReadExcelUtility {
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-            for (int i = 1; i <= usedTimes; i++) {
+            for (int i = 0; i < usedTimes; i++) {
                 CellInfo cellInfo = new CellInfo();
                 int[] temp = new int[7];
                 int count = 0;
@@ -84,8 +84,6 @@ public class ReadExcelUtility {
                 temp[5] = Integer.parseInt(sheet.getCell(5, i).getContents());
                 temp[6] = Integer.parseInt(sheet.getCell(6, i).getContents());
                 cellInfo.values = temp;
-                cellInfo.countRedValues = Integer.parseInt(sheet.getCell(7, i).getContents());
-                cellInfo.countAllValues = Integer.parseInt(sheet.getCell(8, i).getContents());
                 result.add(cellInfo);
             }
 
@@ -305,6 +303,59 @@ public class ReadExcelUtility {
 
     }
 
+    public static void writeFile(List<List<Integer>> list, WritableWorkbook book, int selectRed, int selectBlue) throws WriteException, IOException {
+        List<Integer> lastTime = ReadExcelUtility.getLastNumber();
+        int blue = lastTime.get(6);
+        lastTime.remove(lastTime.size()-1);
+            // 创建第一张工作表
+                WritableSheet sheet = book.createSheet( " 第一页 " , 0);
+                // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+                int index = 0;
+                for (int i = 0; i < list.size(); i++) {
+
+                    List<Integer> temp = list.get(i);
+                    int countRed = 0;
+                    for (int j = 0; j < temp.size()-selectBlue; j++) {
+                        countRed = countRed + (lastTime.contains(temp.get(j)) ? 1 :0);
+                    }
+                    int countBlue = 0;
+                    for (int j = temp.size()-selectBlue; j < temp.size(); j++) {
+                        countBlue = countBlue + blue==temp.get(j) ? 1 :0;
+                    }
+
+                    int money = 0;
+                    int sum = countBlue+countRed;
+                    switch (sum){
+                        case 7:
+                            money=5000000;
+                            break;
+                        case 6:
+                            money = countBlue == 1 ? 3000 : 200000;
+                            break;
+                        case 5:
+                            money=200;
+                            break;
+                        case 4:
+                            money=10;
+                            break;
+                        default:
+                            money = countBlue == 1 ? 5 : 0;
+                            break;
+                    }
+//                    if (money < 5){continue;}
+                    // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                    for (int j = 0; j < temp.size(); j++) {
+                        Number number = new Number( j , index, temp.get(j));
+                        sheet.addCell(number);
+                    }
+                    Number number1 = new Number(temp.size(), index, money);
+                    sheet.addCell(number1);
+                    index++;
+                }
+
+
+    }
+
     public static void writeFile12(List<int[]> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
 
             // 创建第一张工作表
@@ -409,6 +460,42 @@ public class ReadExcelUtility {
 
     }
 
+    public static void writeFile2(List<int[]> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        List<Integer> lastTime = ReadExcelUtility.getLastNumber();
+
+            // 创建第一张工作表
+                WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+                // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+                for (int i = 0; i < list.size(); i++) {
+                    int[] temp = list.get(i);
+                    // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                    Number number1 = new Number( 0 , i, temp[0]);
+                    Number number2 = new Number( 1 , i, temp[1]);
+                    Number number3 = new Number( 2 , i, temp[2]);
+                    Number number4 = new Number( 3 , i, temp[3]);
+                    Number number5 = new Number( 4 , i, temp[4]);
+                    Number number6 = new Number( 5 , i, temp[5]);
+                    Number number7 = new Number( 6 , i, temp[6]);
+                    Number number8 = new Number( 7 , i, temp[7]);
+
+                    try {
+                        sheet.addCell(number1);
+                        sheet.addCell(number2);
+                        sheet.addCell(number3);
+                        sheet.addCell(number4);
+                        sheet.addCell(number5);
+                        sheet.addCell(number6);
+                        sheet.addCell(number7);
+                        sheet.addCell(number8);
+
+                    } catch (WriteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+
+    }
+
     public static List<Integer> hisList;
     static {
         hisList = new ArrayList<>();
@@ -462,8 +549,8 @@ public class ReadExcelUtility {
         WritableWorkbook writableWorkbook = null;
         try {
             // 解析路径的file文件
-            workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\预测结果.xls"));
-            writableWorkbook = Workbook.createWorkbook( new File("预测结果2.xls" ));
+            workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\预测.xls"));
+            writableWorkbook = Workbook.createWorkbook( new File("预测结果3.xls" ));
             WritableSheet writableSheet = writableWorkbook.createSheet( " 第"+1+"页 " , 0);
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);

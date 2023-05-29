@@ -1,9 +1,5 @@
 package com.wx.appbackend.test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by Intellij IDEA.
  * User:  sm.huang
@@ -12,10 +8,8 @@ import java.util.List;
 public class CellInfo {
 
     public String date;
-    public Date calendarDate;
+    public String index;
     public int[] values;
-    public List<Integer> redValues;
-    public int blueValue;
 
     public int countRedValues;
 

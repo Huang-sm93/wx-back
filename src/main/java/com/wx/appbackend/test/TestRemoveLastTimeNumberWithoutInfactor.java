@@ -1,6 +1,5 @@
 package com.wx.appbackend.test;
 
-import io.swagger.models.auth.In;
 import jxl.Workbook;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -37,15 +36,7 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
 //                book.close();
 //            }
 //        }
-        List<Integer> redAll = new ArrayList<>();
-        redAll.add(14);
-        redAll.add(16);
-        redAll.add(19);
-        redAll.add(23);
-        redAll.add(28);
-        redAll.add(30);
         su();
-        ReadExcelUtility.calculatePrize(redAll, 3);
     }
 
 
@@ -67,10 +58,10 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
                 continue;
             }
             //判断数字和大小
-//            int sum = temp[0]+temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6];
-//            if (sum < 108){
-//                continue;
-//            }
+            int sum = temp[0]+temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6];
+            if (sum < 70 || sum > 109){
+                continue;
+            }
             historyList.add(temp);
             result.add(temp);
             countSize++;
@@ -148,9 +139,9 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
         }
         Random random = new Random();
         List<int[]> list = getResult(allBlue,allRed, random, 10000);
-//        for (int[] ints : list) {
-//            System.out.println(ints[0]+"  " + ints[1] + "  "+ ints[2] + "  "+ ints[3] + "  "+ ints[4] + "  "+ ints[5] + "  "+ ints[6] + "  ");
-//        }
+        for (int[] ints : list) {
+            System.out.println(ints[0]+"  " + ints[1] + "  "+ ints[2] + "  "+ ints[3] + "  "+ ints[4] + "  "+ ints[5] + "  "+ ints[6] + "  ");
+        }
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook( new File("预测结果.xls" ));
@@ -167,6 +158,4 @@ public class TestRemoveLastTimeNumberWithoutInfactor {
             }
         }
     }
-
-
 }
