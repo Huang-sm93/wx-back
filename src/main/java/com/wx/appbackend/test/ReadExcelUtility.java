@@ -133,7 +133,6 @@ public class ReadExcelUtility {
                 cellInfo.countRedValues = Integer.parseInt(sheet.getCell(7, i).getContents());
                 cellInfo.countAllValues = Integer.parseInt(sheet.getCell(8, i).getContents());
                 cellInfo.date = sheet.getCell(9, i).getContents() + " 21:15:00";
-                cellInfo.calendarDate = sdf.parse(cellInfo.date);
                 result.add(cellInfo);
             }
 
@@ -141,8 +140,6 @@ public class ReadExcelUtility {
             e.printStackTrace();
         } catch (BiffException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
 
         return result;

@@ -1,5 +1,8 @@
 package com.wx.appbackend.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Intellij IDEA.
  * User:  sm.huang
@@ -16,4 +19,6 @@ public class CellInfo {
     public int countAllValues;
 
     public Double deta;
+    public int blueValue;
+    public List<Integer> redValues;
 }
