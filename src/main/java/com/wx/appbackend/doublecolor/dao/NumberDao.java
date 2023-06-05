@@ -26,4 +26,14 @@ public interface NumberDao {
     void insertBatch1(List<BallNumbers> list);
 
     BallNumbers getById1(long l);
+
+    BallNumbers getBFRById(int i);
+
+    void insertBFRBatch(List<BallNumbers> list);
+
+    BallNumbers getDCRById(int i);
+
+    BallNumbers getDCByKeys(BallNumbers ballNumbers);
+
+    BallNumbers getBFByKeys(BallNumbers ballNumbers);
 }

@@ -6,10 +6,7 @@ import com.wx.appbackend.doublecolor.entity.BallNumbersReqDTO;
 import com.wx.appbackend.doublecolor.entity.BallNumbersResDTO;
 import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
 import com.wx.appbackend.doublecolor.util.CalculateUtility;
-import com.wx.appbackend.test.CellInfo;
-import com.wx.appbackend.test.CellNumber;
-import com.wx.appbackend.test.ReadExcelUtility;
-import com.wx.appbackend.test.TestBigFun;
+import com.wx.appbackend.test.*;
 import jxl.Workbook;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -330,7 +327,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
         List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\近100次历史记录.xls",200);
         List<int[]> list1 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            int[] temp = new int[8];
+            int[] temp = new int[7];
             CellInfo cellInfo = list.get(i);
             BallNumbers ballNumbers = new BallNumbers();
             ballNumbers.number1 = cellInfo.values[0];
@@ -339,8 +336,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             ballNumbers.number4 = cellInfo.values[3];
             ballNumbers.number5 = cellInfo.values[4];
             ballNumbers.number6 = cellInfo.values[5];
-            ballNumbers.number7 = cellInfo.values[6];
-            BallNumbers ballNumbers1 = numberDao.getByKeys1(ballNumbers);
+            BallNumbers ballNumbers1 = numberDao.getDCByKeys(ballNumbers);
             //将ballNumbers1的值记录到temp中
             temp[0] = ballNumbers1.number1;
             temp[1] = ballNumbers1.number2;
@@ -348,8 +344,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             temp[3] = ballNumbers1.number4;
             temp[4] = ballNumbers1.number5;
             temp[5] = ballNumbers1.number6;
-            temp[6] = ballNumbers1.number7;
-            temp[7] = Integer.parseInt(""+ballNumbers1.id);
+            temp[6] = Integer.parseInt(""+ballNumbers1.id);
             //记录到excel文件中
             list1.add(temp);
         }
@@ -442,5 +437,126 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             }
         }
         return TestBigFun.test();
+    }
+
+    @Override
+    public String generateBigFunRed(BallNumbersReqDTO reqDTO) throws WriteException, IOException {
+        List<int[]> res = new ArrayList<>();
+        Random random = new Random();
+        if (reqDTO.indexStart > 0 &&
+                reqDTO.indexSize > 0 ){
+            int stepSize = (reqDTO.indexStart+reqDTO.indexSize)/ reqDTO.size;
+            for (int i = reqDTO.indexStart; i < reqDTO.indexStart+reqDTO.indexSize; i=i+stepSize) {
+                stepSize = random.nextInt(stepSize)+1;
+                int[] temp = new int[6];
+                BallNumbers ballNumbers = numberDao.getBFRById(i);
+                temp[0] = ballNumbers.number1;
+                temp[1] = ballNumbers.number2;
+                temp[2] = ballNumbers.number3;
+                temp[3] = ballNumbers.number4;
+                temp[4] = ballNumbers.number5;
+                temp[5] = Integer.parseInt(""+ballNumbers.id);
+                res.add(temp);
+            }
+        }
+        WritableWorkbook book = null;
+        if (res.size() > 0){
+            try {
+                book = Workbook.createWorkbook( new File("预测bigfunred.xls" ));
+                ReadExcelUtility.writeFile2(res, book, 1);
+                book.write();
+            } catch (IOException | WriteException e) {
+                throw new RuntimeException(e);
+            }finally {
+                book.close();
+            }
+        }
+        return TestBigFun.getCalculateResult();
+    }
+
+    @Override
+    public void insertBFRBatch(List<BallNumbers> list) {
+        numberDao.insertBFRBatch(list);
+    }
+
+    @Override
+    public String generateDCRed(BallNumbersReqDTO reqDTO) throws WriteException, IOException {
+        List<int[]> res = new ArrayList<>();
+        Random random = new Random();
+        if (reqDTO.indexStart > 0 &&
+                reqDTO.indexSize > 0 ){
+            int stepSize = (reqDTO.indexStart+reqDTO.indexSize)/ reqDTO.size;
+            for (int i = reqDTO.indexStart; i < reqDTO.indexStart+reqDTO.indexSize; i=i+stepSize) {
+                stepSize = random.nextInt(stepSize)+1;
+                int[] temp = new int[7];
+                BallNumbers ballNumbers = numberDao.getDCRById(i);
+                temp[0] = ballNumbers.number1;
+                temp[1] = ballNumbers.number2;
+                temp[2] = ballNumbers.number3;
+                temp[3] = ballNumbers.number4;
+                temp[4] = ballNumbers.number5;
+                temp[5] = ballNumbers.number6;
+                temp[6] = Integer.parseInt(""+ballNumbers.id);
+                res.add(temp);
+            }
+        }
+        WritableWorkbook book = null;
+        if (res.size() > 0){
+            try {
+                book = Workbook.createWorkbook( new File("预测DC.xls" ));
+                ReadExcelUtility.writeFile2(res, book, 1);
+                book.write();
+            } catch (IOException | WriteException e) {
+                throw new RuntimeException(e);
+            }finally {
+                book.close();
+            }
+        }
+        return TestDoubleColor.getCalculateResult();
+    }
+
+    @Override
+    public void calculateBFIndex() throws WriteException, IOException {
+        List<int[]> list = ReadExcelUtility.getBFArrFileName("D:\\Work\\wx-app-backend-master\\BG近100次历史记录1.xls",0);
+        List<int[]> list1 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            int[] temp = new int[10];
+            int[] values = list.get(i);
+            BallNumbers ballNumbers = new BallNumbers();
+            ballNumbers.number1 = values[0];
+            ballNumbers.number2 = values[1];
+            ballNumbers.number3 = values[2];
+            ballNumbers.number4 = values[3];
+            ballNumbers.number5 = values[4];
+//            BallNumbers ballNumbers1 = numberDao.getBFByKeys(ballNumbers);
+            //将ballNumbers1的值记录到temp中
+//            temp[0] = ballNumbers1.number1;
+//            temp[1] = ballNumbers1.number2;
+//            temp[2] = ballNumbers1.number3;
+//            temp[3] = ballNumbers1.number4;
+//            temp[4] = ballNumbers1.number5;
+            temp[0] = ballNumbers.number1;
+            temp[1] = ballNumbers.number2;
+            temp[2] = ballNumbers.number3;
+            temp[3] = ballNumbers.number4;
+            temp[4] = ballNumbers.number5;
+//            temp[6] = Integer.parseInt(""+ballNumbers1.id);
+            temp[7] = temp[0]*temp[1]*temp[2]*temp[3]*temp[4];
+            temp[8] = temp[0]+temp[1]+temp[2]+temp[3]+temp[4];
+            //记录到excel文件中
+            list1.add(temp);
+        }
+        WritableWorkbook book = null;
+        if (list1.size() > 0){
+            try {
+                book = Workbook.createWorkbook( new File("BF计算位置结果及乘积.xls" ));
+                ReadExcelUtility.writeFile2(list1, book, 1);
+                book.write();
+            } catch (IOException | WriteException e) {
+                throw new RuntimeException(e);
+            }finally {
+                book.close();
+            }
+        }
     }
 }

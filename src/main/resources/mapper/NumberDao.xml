@@ -14,6 +14,15 @@
     <sql id="Base_Column">
         id, number1, number2, number3, number4, number5, number6, number7
     </sql>
+
+    <sql id="BFR_Base_Column">
+        id, number1, number2, number3, number4, number5
+    </sql>
+
+    <sql id="DCR_Base_Column">
+        id, number1, number2, number3, number4, number5, number6
+    </sql>
+
     <insert id="insertBatch" parameterType="com.wx.appbackend.doublecolor.entity.BallNumbers"
             useGeneratedKeys="true">
         insert into double_color_all (id, number1, number2, number3, number4, number5,number6,number7)
@@ -28,6 +37,13 @@
         values
         <foreach collection="list" item="t" index="index" separator=",">
             (#{t.id},#{t.number1}, #{t.number2}, #{t.number3}, #{t.number4}, #{t.number5}, #{t.number6}, #{t.number7})
+        </foreach>
+    </insert>
+    <insert id="insertBFRBatch">
+        insert into big_fun_red_ball (id, number1, number2, number3, number4, number5)
+        values
+        <foreach collection="list" item="t" index="index" separator=",">
+            (#{t.id},#{t.number1}, #{t.number2}, #{t.number3}, #{t.number4}, #{t.number5})
         </foreach>
     </insert>
     <select id="getById" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
@@ -65,6 +81,36 @@
         number1 = #{number1,jdbcType=INTEGER} and number4 = #{number4,jdbcType=INTEGER} and
         number6 = #{number6,jdbcType=INTEGER}
         limit 0,#{size,jdbcType=INTEGER}
+    </select>
+    <select id="getBFRById" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="BFR_Base_Column"/>
+        from big_fun_red_ball
+        where id = #{key,jdbcType=BIGINT}
+    </select>
+    <select id="getDCRById" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="DCR_Base_Column"/>
+        from double_color_red_ball
+        where id = #{key,jdbcType=BIGINT}
+    </select>
+    <select id="getDCByKeys" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="DCR_Base_Column"/>
+        from double_color_red_ball
+        where
+        number1 = #{number1,jdbcType=INTEGER} and number2 = #{number2,jdbcType=INTEGER} and
+        number3 = #{number3,jdbcType=INTEGER} and number4 = #{number4,jdbcType=INTEGER} and
+        number5 = #{number5,jdbcType=INTEGER} and number6 = #{number6,jdbcType=INTEGER}
+    </select>
+    <select id="getBFByKeys" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="BFR_Base_Column"/>
+        from big_fun_red_ball
+        where
+        number1 = #{number1,jdbcType=INTEGER} and number2 = #{number2,jdbcType=INTEGER} and
+        number3 = #{number3,jdbcType=INTEGER} and number4 = #{number4,jdbcType=INTEGER} and
+        number5 = #{number5,jdbcType=INTEGER}
     </select>
 
 </mapper>

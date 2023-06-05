@@ -42,4 +42,12 @@ public interface DoubleColorService {
     void getLastTimes() throws WriteException, IOException;
 
     String generateBigFun(BallNumbersReqDTO reqDTO) throws WriteException, IOException;
+
+    String generateBigFunRed(BallNumbersReqDTO reqDTO) throws WriteException, IOException;
+
+    void insertBFRBatch(List<BallNumbers> list);
+
+    String generateDCRed(BallNumbersReqDTO reqDTO) throws WriteException, IOException;
+
+    void calculateBFIndex() throws WriteException, IOException;
 }

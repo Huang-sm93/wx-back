@@ -3,13 +3,13 @@ package com.wx.appbackend.test;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -151,6 +151,80 @@ public class TestBigFun {
             }
         }
         return bf.toString();
+    }
+
+    public static String getCalculateResult() throws WriteException, IOException {
+        List<Integer> redAll = new ArrayList<>();
+        redAll.add(9);
+        redAll.add(13);
+        redAll.add(23);
+        redAll.add(25);
+        redAll.add(28);
+
+//        redAll.add(19);
+//        redAll.add(22);
+//        redAll.add(29);
+//        redAll.add(32);
+//        redAll.add(35);
+        System.out.println("redAll:" + redAll);
+        StringBuffer bf = new StringBuffer();
+        bf.append("redAll:" + redAll + "\n");
+        Workbook workbook = null;
+        try {
+            // 解析路径的file文件
+            workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\预测bigfunred.xls"));
+
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            CellNumber[] allRed = new CellNumber[36];
+            CellNumber[] allBlue = new CellNumber[13];
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                for (int j = 0; j < 5; j++) {
+                    int index = Integer.parseInt(sheet.getCell(j, i).getContents());
+                    if (allRed[index] == null){
+                        allRed[index] = new CellNumber(index, 0);
+                    }
+                    allRed[index].count = allRed[index].count + 1;
+                }
+            }
+            List<CellNumber> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
+
+            int sizeLeft = redList.size() > 18 ? 18 : redList.size();
+            int sizeRight = 6;
+
+            int countRed = 0;
+            for (int i = 0; i <sizeLeft; i++) {
+                countRed = redAll.contains(redList.get(i).number) ? countRed+1 : countRed;
+                bf.append("\t"+redList.get(i).number);
+            }
+//            for (int i = redList.size()/2; i < redList.size()/2 + sizeRight; i++) {
+//                countRed = redAll.contains(redList.get(i).number) ? countRed+1 : countRed;
+//                bf.append("\t"+redList.get(i).number);
+//            }
+            bf.append("\n"+"red："+countRed + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }finally {
+
+            if (workbook != null) {
+                workbook.close();
+            }
+        }
+        return bf.toString();
+    }
+
+
+    public static void main(String[] args) {
+        List<Integer> redAll = new ArrayList<>();
+        for (int i = 1; i < 36; i++) {
+            redAll.add(i);
+        }
+
+
     }
 }
 

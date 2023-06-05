@@ -36,8 +36,8 @@ public class DoubleColorController {
         return sd;
     }
 
-    @RequestMapping("/bigfun")
-    public void bigfun() throws Exception {
+    @RequestMapping("/bigfunred")
+    public void bigFunRed() throws Exception {
         List<BallNumbers> list = new ArrayList<>();
         int count = 0;
         int count1 = 0;
@@ -46,37 +46,31 @@ public class DoubleColorController {
             for (int j = i+1; j < 33; j++) {
                 for (int k = j+1; k < 34; k++) {
                     for (int l = k+1; l < 35; l++) {
-                        for (int m = l+1; m < 36; m++) {
-                            for (int n = 1; n < 12; n++) {
-                                for (int o = n+1; o < 13; o++) {
-                                    list.add(new BallNumbers());
-                                    list.get(count).id = count2;
-                                    list.get(count).number1 = i;
-                                    list.get(count).number2 = j;
-                                    list.get(count).number3 = k;
-                                    list.get(count).number4 = l;
-                                    list.get(count).number5 = m;
-                                    list.get(count).number6 = n;
-                                    list.get(count).number7 = o;
-                                    count++;
-                                    count2++;
-                                    if (list.size()%3000 == 0) {
-                                        System.out.println("写入第"+count1+"个文件");
-                                        count1++;
-                                        doubleColorService.insertBigFunBatch(list);
-                                        list.clear();
-                                        count = 0;
-                                    }
-
-                                }
+                        for (int m = l+1; m < 36; m++)  {
+                            list.add(new BallNumbers());
+                            list.get(count).id = count2;
+                            list.get(count).number1 = i;
+                            list.get(count).number2 = j;
+                            list.get(count).number3 = k;
+                            list.get(count).number4 = l;
+                            list.get(count).number5 = m;
+                            count++;
+                            count2++;
+                            if (list.size()%3000 == 0) {
+                                System.out.println("写入第"+count1+"个文件");
+                                count1++;
+                                doubleColorService.insertBFRBatch(list);
+                                list.clear();
+                                count = 0;
                             }
+
                         }
                     }
                 }
             }
         }
         if (list.size() > 0) {
-            doubleColorService.insertBigFunBatch(list);
+            doubleColorService.insertBFRBatch(list);
         }
 
     }
@@ -177,6 +171,23 @@ public class DoubleColorController {
     @GetMapping("/getLastTimes")
     public void getLastTimes() throws Exception {
         doubleColorService.getLastTimes();
+    }
+
+    @GetMapping("/calculateBFIndex")
+    public void calculateBFIndex() throws Exception {
+        doubleColorService.calculateBFIndex();
+    }
+
+    @PostMapping("/generateBigFunRed")
+    public String generateBigFunRed(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
+        return doubleColorService.generateBigFunRed(reqDTO);
+
+    }
+
+    @PostMapping("/generateDCRed")
+    public String generateDCRed(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
+        return doubleColorService.generateDCRed(reqDTO);
+
     }
 
 }
