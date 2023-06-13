@@ -1,7 +1,10 @@
 package com.wx.appbackend.test;
 
+import jxl.Workbook;
+import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,17 +16,18 @@ import java.util.stream.Collectors;
  * User:  sm.huang
  * Date:  2023/5/23
  */
-public class TestBigFun605_1 {
+public class TestBigFun607_2 {
 
     static List<Integer> initListA;
+
     public static void main(String[] args) throws WriteException, IOException {
         List<List<Integer>> lastList = ReadExcelUtility.getBFRLastNumbers(0, 2428);
-//        for (int l = 0; l < 2426; l++) {
-            List<Integer> initList = initListA;
+
             for (int i = 0; i < lastList.size(); i++) {
                 int count = 0;
-                for (int j = 0; j < initList.size(); j++) {
-                    if (lastList.get(i).contains(initList.get(j))){
+                List<Integer> currentList = lastList.get(i);
+                for (int j = 0; j < 5; j++) {
+                    if (initListA.contains(currentList.get(j))){
                         count++;
                     }
                 }
@@ -32,9 +36,19 @@ public class TestBigFun605_1 {
                 }
             }
 
-//            System.out.println("============第"+l+"次================");
-//        }
 
+//                WritableWorkbook book = null;
+//        if (lastList.size() > 0){
+//            try {
+//                book = Workbook.createWorkbook( new File("统计6071.xls" ));
+//                ReadExcelUtility.writeFile4(lastList, book, 1);
+//                book.write();
+//            } catch (IOException | WriteException e) {
+//                throw new RuntimeException(e);
+//            }finally {
+//                book.close();
+//            }
+//        }
 //        CellNumber[] allRed = new CellNumber[36];
 //        for (int i = 0; i < lastList.size(); i++) {
 //            List<Integer> currentList = lastList.get(i);
@@ -148,13 +162,16 @@ public class TestBigFun605_1 {
 //        initList.add(30);
 
 
-        initListA.add(9);
+        initListA.add(1);
+        initListA.add(3);initListA.add(7);
+
         initListA.add(15);
-        initListA.add(22);
-        initListA.add(26);
-        initListA.add(29);
-//        initList.add(27);
-//        initList.add(35);
+        initListA.add(18);
+        initListA.add(24);
+        initListA.add(23);
+        initListA.add(28);
+        initListA.add(33);
+
     }
 }
 

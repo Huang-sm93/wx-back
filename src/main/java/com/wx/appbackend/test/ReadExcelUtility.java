@@ -304,6 +304,86 @@ public class ReadExcelUtility {
         return result;
     }
 
+    public static List<List<Integer>> getBFRLastNumbers2(int startTimes, int endTimes){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\多预测.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i <= sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 0; j < 12; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }public static List<List<String>> getDCRLastNumbers1(){
+        List<List<String>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\多预测.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<String> temp = new ArrayList<>();
+                for (int j = 0; j < 18; j++) {
+                    temp.add(sheet.getCell(j, i).getContents());
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    public static List<List<Integer>> getDCRLastNumbers(int startTimes, int endTimes){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\最新历史记录.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = startTimes; i <= endTimes; i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                temp.add(Integer.parseInt(sheet.getCell(0, i).getContents()));
+                temp.add(Integer.parseInt(sheet.getCell(1, i).getContents()));
+                temp.add(Integer.parseInt(sheet.getCell(2, i).getContents()));
+                temp.add(Integer.parseInt(sheet.getCell(3, i).getContents()));
+                temp.add(Integer.parseInt(sheet.getCell(4, i).getContents()));
+                temp.add(Integer.parseInt(sheet.getCell(5, i).getContents()));
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public static List<Integer> getBFLastRedNumbers(String fileName, int start, int end){
         List<Integer> result = new ArrayList<>();
         try {
@@ -649,6 +729,24 @@ public class ReadExcelUtility {
         }
     }
 
+    public static void writeFile6(List<List<String>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            List<String> temp = list.get(i);
+            // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+            for (int j = 0; j < temp.size(); j++) {
+                Label number1 = new Label(j, i, temp.get(j));
+                try {
+                    sheet.addCell(number1);
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
     public static void writeFile4(List<List<Integer>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
         // 创建第一张工作表
         WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
@@ -658,6 +756,24 @@ public class ReadExcelUtility {
             // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
             for (int j = 0; j < temp.size(); j++) {
                 Label number1 = new Label(j, i, temp.get(j).toString());
+                try {
+                    sheet.addCell(number1);
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public static void writeFile5(List<List<Integer>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            List<Integer> temp = list.get(i);
+            // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+            for (int j = 0; j < temp.size(); j++) {
+                Number number1 = new Number(j, i, temp.get(j));
                 try {
                     sheet.addCell(number1);
                 } catch (WriteException e) {
@@ -799,5 +915,31 @@ public class ReadExcelUtility {
                 workbook.close();
             }
         }
+    }
+
+    public static List<List<String>> getBFRLastNumbers1() {
+        List<List<String>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\BF多预测.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<String> temp = new ArrayList<>();
+                for (int j = 0; j < 17; j++) {
+                    temp.add(sheet.getCell(j, i).getContents());
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

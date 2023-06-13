@@ -1,11 +1,15 @@
 package com.wx.appbackend.test;
 
+import jxl.Workbook;
+import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -13,30 +17,28 @@ import java.util.stream.Collectors;
  * User:  sm.huang
  * Date:  2023/5/23
  */
-public class TestBigFun605_1 {
+public class TestDoubleColor605_1 {
+    static List<Integer> initList;
 
-    static List<Integer> initListA;
+    public static int getRandomNum(List<Integer> blueCount, Random random){
+
+        int randNum = random.nextInt(blueCount.size());
+        int count = blueCount.get(randNum);
+        boolean flag = true;
+        while (flag){
+            flag = blueCount.remove(new Integer(count));
+        }
+        return count;
+    }
+
+
     public static void main(String[] args) throws WriteException, IOException {
-        List<List<Integer>> lastList = ReadExcelUtility.getBFRLastNumbers(0, 2428);
-//        for (int l = 0; l < 2426; l++) {
-            List<Integer> initList = initListA;
-            for (int i = 0; i < lastList.size(); i++) {
-                int count = 0;
-                for (int j = 0; j < initList.size(); j++) {
-                    if (lastList.get(i).contains(initList.get(j))){
-                        count++;
-                    }
-                }
-                if (count >= 4){
-                    System.out.println(lastList.get(i)+"位置"+i+"命中："+count);
-                }
-            }
-
-//            System.out.println("============第"+l+"次================");
-//        }
-
-//        CellNumber[] allRed = new CellNumber[36];
-//        for (int i = 0; i < lastList.size(); i++) {
+        List<List<Integer>> lastList = ReadExcelUtility.getDCRLastNumbers(0, 2000);
+//        int index1 = 3;
+//        List<Integer> current = lastList.get(index1);
+//
+//        CellNumber[] allRed = new CellNumber[34];
+//        for (int i = 100+index1; i < 120+index1; i++) {
 //            List<Integer> currentList = lastList.get(i);
 //            for (int j = 0; j < currentList.size(); j++) {
 //                int index = currentList.get(j);
@@ -46,11 +48,55 @@ public class TestBigFun605_1 {
 //                allRed[index].count = allRed[index].count + 1;
 //            }
 //        }
-//
 //        List<Integer> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).map(o->o.number).collect(Collectors.toList());
-//        System.out.println(redList.subList(0,10));
-//        System.out.println(redList.subList(redList.size()-5, redList.size()));
+//        List<Integer> canSelectList = new ArrayList<>();
+//        for (int i = 0; i < redList.size(); i++) {
+//            for (int j = 0; j < (redList.size()*2-i*4); j++) {
+//                canSelectList.add(redList.get(i));
+//            }
+//        }
+//
+//        List<List<Integer>> res = new ArrayList<>();
+//        for (int i = 0; i < 1000; i++) {
+//            Random random = new Random();
+//            List<Integer> blueCount = new ArrayList<>(canSelectList);
+//            List<Integer> currentRes = new ArrayList<>();
+//            int count = 0;
+//            for (int j = 0; j < 15; j++) {
+//                int temp = getRandomNum(blueCount, random);
+//                count = current.contains(temp) ? count+1 : count;
+//                currentRes.add(temp);
+//            }
+//
+//            List<Integer> blues = currentRes.subList(currentRes.size()-12, currentRes.size()-6);
+//            blues.add(count);
+//            res.add(blues);
+//        }
+//
+//        WritableWorkbook book = null;
+//        if (res.size() > 0){
+//            try {
+//                book = Workbook.createWorkbook( new File("统计606.xls" ));
+//                ReadExcelUtility.writeFile5(res, book, 1);
+//                book.write();
+//            } catch (IOException | WriteException e) {
+//                throw new RuntimeException(e);
+//            }finally {
+//                book.close();
+//            }
+//        }
 
+        for (int i = 0; i < lastList.size(); i++) {
+            int count = 0;
+            for (int j = 0; j < initList.size(); j++) {
+                if (lastList.get(i).contains(initList.get(j))){
+                    count++;
+                }
+            }
+            if (count >= 4){
+                System.out.println(lastList.get(i)+"位置"+i+"命中："+count);
+            }
+        }
 
 //        int start = 606;
 //        int end = start + 20;
@@ -134,27 +180,27 @@ public class TestBigFun605_1 {
     }
 
     static {
-        initListA = new ArrayList<>();
+        initList = new ArrayList<>();
 //        initList.add(4);
 //        initList.add(11);
 //        initList.add(18);
 //        initList.add(25);
 //        initList.add(32);
-//
-//        initList.add(6);
-//        initList.add(8);
-//        initList.add(22);
-//        initList.add(24);
-//        initList.add(30);
+
+//        initList.add(2);
+//        initList.add(10);
+//        initList.add(18);
+//        initList.add(25);
+//        initList.add(33);
 
 
-        initListA.add(9);
-        initListA.add(15);
-        initListA.add(22);
-        initListA.add(26);
-        initListA.add(29);
-//        initList.add(27);
-//        initList.add(35);
+        initList.add(1);
+        initList.add(7);
+        initList.add(11);
+        initList.add(12);
+        initList.add(18);
+        initList.add(16);
+
     }
 }
 
