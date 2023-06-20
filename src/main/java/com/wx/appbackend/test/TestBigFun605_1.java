@@ -148,11 +148,11 @@ public class TestBigFun605_1 {
 //        initList.add(30);
 
 
-        initListA.add(9);
-        initListA.add(15);
-        initListA.add(22);
+        initListA.add(2);
+        initListA.add(6);
+        initListA.add(7);
+        initListA.add(17);
         initListA.add(26);
-        initListA.add(29);
 //        initList.add(27);
 //        initList.add(35);
     }

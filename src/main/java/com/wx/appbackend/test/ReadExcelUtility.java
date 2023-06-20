@@ -1,5 +1,6 @@
 package com.wx.appbackend.test;
 
+import io.swagger.models.auth.In;
 import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -106,7 +107,7 @@ public class ReadExcelUtility {
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-            for (int i = 0; i < usedTimes; i++) {
+            for (int i = 0; i < sheet.getRows(); i++) {
                 CellInfo cellInfo = new CellInfo();
                 int[] temp = new int[7];
                 int count = 0;
@@ -304,18 +305,44 @@ public class ReadExcelUtility {
         return result;
     }
 
-    public static List<List<Integer>> getBFRLastNumbers2(int startTimes, int endTimes){
+    public static List<List<Integer>> getBFRLastNumbersAll2(){
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\多预测.xls"));
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\多数预测69.xls"));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-            for (int i = 0; i <= sheet.getRows(); i++) {
+            for (int i = 0; i < 500; i++) {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<Integer> temp = new ArrayList<>();
-                for (int j = 0; j < 12; j++) {
+                for (int j = 0; j < 15; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<Integer>> getDCRLastNumbersAll2(){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\ssq70.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 0; j < 14; j++) {
                     temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
                 }
                 result.add(temp);
@@ -339,8 +366,33 @@ public class ReadExcelUtility {
             for (int i = 0; i < sheet.getRows(); i++) {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<String> temp = new ArrayList<>();
-                for (int j = 0; j < 18; j++) {
+                for (int j = 0; j < 15; j++) {
                     temp.add(sheet.getCell(j, i).getContents());
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    public static List<List<Integer>> getDCRLastNumbers2(){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\多预测.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 0; j < 12; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
                 }
                 result.add(temp);
             }
@@ -359,7 +411,7 @@ public class ReadExcelUtility {
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\最新历史记录.xls"));
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\6月13历史记录.xls"));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始

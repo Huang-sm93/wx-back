@@ -1,15 +1,18 @@
 package com.wx.appbackend.doublecolor.controller;
 
 import com.wx.appbackend.common.ServiceData;
+import com.wx.appbackend.doublecolor.dao.NumberDao;
 import com.wx.appbackend.doublecolor.entity.BallNumbersReqDTO;
 import com.wx.appbackend.doublecolor.entity.BallNumbersResDTO;
 import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
 import com.wx.appbackend.doublecolor.service.DoubleColorServiceImpl;
 import com.wx.appbackend.test.CellInfo;
 import com.wx.appbackend.doublecolor.entity.BallNumbers;
+import com.wx.appbackend.test.ReadExcelUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -187,6 +190,37 @@ public class DoubleColorController {
     @PostMapping("/generateDCRed")
     public String generateDCRed(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
         return doubleColorService.generateDCRed(reqDTO);
+
+    }
+    @Resource
+    private NumberDao numberDao;
+
+    @PostMapping("/getByKeys2")
+    public String getByKeys2(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
+        int startSize = reqDTO.startSize;
+        
+//        List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\6月13历史记录.xls",200);
+//        long mulRed = 1;
+//        long mulAll = 1;
+//        for (int i = 0; i < startSize; i++) {
+//            int[] temp = list.get(startSize).values;
+//            mulRed = mulRed*temp[0]*temp[1]*temp[2]*temp[3]*temp[4]*temp[5];
+//            mulAll = mulAll*temp[0]*temp[1]*temp[2]*temp[3]*temp[4]*temp[5]*temp[6];
+//        }
+
+        long mulRed = Long.parseLong(reqDTO.n1);
+        long mulAll = Long.parseLong(reqDTO.n2);
+//        long mulRed = Long.parseLong("3326171402611");
+//        long mulAll = Long.parseLong("143326171402611");
+        long id1= reqDTO.num6*mulRed%1107568;
+        long id2= reqDTO.num7*mulAll%18045720;
+        BallNumbers nums1 = numberDao.getDCRById(id1);
+        StringBuffer sb = new StringBuffer();
+        sb.append(nums1.id + "\t" + nums1.number1 + "\t" + nums1.number2 + "\t" + nums1.number3 + "\t" + nums1.number4 + "\t" + nums1.number5 + "\t" + nums1.number6 + "\t" + nums1.number7 +"\n");
+        BallNumbers nums2 = doubleColorService.getById(id2);
+        sb.append(nums2.id + "\t" + nums2.number1 + "\t" + nums2.number2 + "\t" + nums2.number3 + "\t" + nums2.number4 + "\t" + nums2.number5 + "\t" + nums2.number6 + "\t" + nums2.number7);
+
+        return sb.toString();
 
     }
 

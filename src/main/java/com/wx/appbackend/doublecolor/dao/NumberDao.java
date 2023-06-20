@@ -31,7 +31,7 @@ public interface NumberDao {
 
     void insertBFRBatch(List<BallNumbers> list);
 
-    BallNumbers getDCRById(int i);
+    BallNumbers getDCRById(long i);
 
     BallNumbers getDCByKeys(BallNumbers ballNumbers);
 

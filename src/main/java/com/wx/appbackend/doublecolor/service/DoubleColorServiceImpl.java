@@ -324,7 +324,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
 
     @Override
     public void getLastTimes() throws WriteException, IOException {
-        List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\近100次历史记录.xls",200);
+        List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\6月13历史记录.xls",200);
         List<int[]> list1 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             int[] temp = new int[7];

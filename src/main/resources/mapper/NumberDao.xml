@@ -49,7 +49,7 @@
     <select id="getById" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
         select
         <include refid="Base_Column"/>
-        from double_color_all
+        from big_fun_all
         where id = #{key,jdbcType=BIGINT}
     </select>
     <select id="getByKeys" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">

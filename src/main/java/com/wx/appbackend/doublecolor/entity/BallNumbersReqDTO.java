@@ -28,4 +28,11 @@ public class BallNumbersReqDTO implements Serializable {
     public int indexEnd;
     public int indexSize;
     public int size;
+
+    public int num6;
+    public int num7;
+    public int startSize;
+
+    public String n1;
+    public String n2;
 }

@@ -194,12 +194,12 @@ public class TestDoubleColor605_1 {
 //        initList.add(33);
 
 
-        initList.add(1);
-        initList.add(7);
+        initList.add(3);
         initList.add(11);
-        initList.add(12);
         initList.add(18);
-        initList.add(16);
+        initList.add(27);
+        initList.add(28);
+        initList.add(32);
 
     }
 }
