@@ -9,10 +9,15 @@ import com.wx.appbackend.doublecolor.service.DoubleColorServiceImpl;
 import com.wx.appbackend.test.CellInfo;
 import com.wx.appbackend.doublecolor.entity.BallNumbers;
 import com.wx.appbackend.test.ReadExcelUtility;
+import jxl.Workbook;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -192,13 +197,65 @@ public class DoubleColorController {
         return doubleColorService.generateDCRed(reqDTO);
 
     }
+
+    @PostMapping("/ca")
+    public void ca(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
+        int count = 0;
+        List<List<Integer>> resultList = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            count = i*1000+400;
+            List<List<Integer>> res = doubleColorService.getBFRyIdLimit(count, reqDTO.num6, reqDTO.num7);
+            if (res != null &&res.size() > 0) {
+                resultList.addAll(res);
+            }
+        }
+        WritableWorkbook book = null;
+        if (resultList.size() > 0){
+            try {
+                book = Workbook.createWorkbook( new File("统计624.xls" ));
+                ReadExcelUtility.writeFile4(resultList, book, 1);
+                book.write();
+            } catch (IOException | WriteException e) {
+                throw new RuntimeException(e);
+            }finally {
+                book.close();
+            }
+        }
+
+    }
+
+    @PostMapping("/dc")
+    public void dc(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
+        int count = 0;
+        List<List<Integer>> resultList = new ArrayList<>();
+        for (int i = 0; i < 1100; i++) {
+            count = i*1000+400;
+            List<List<Integer>> res = doubleColorService.getDCRyIdLimit(count, reqDTO.num6, reqDTO.num7);
+            if (res != null &&res.size() > 0) {
+                resultList.addAll(res);
+            }
+        }
+        WritableWorkbook book = null;
+        if (resultList.size() > 0){
+            try {
+                book = Workbook.createWorkbook( new File("统计626-1.xls" ));
+                ReadExcelUtility.writeFile4(resultList, book, 1);
+                book.write();
+            } catch (IOException | WriteException e) {
+                throw new RuntimeException(e);
+            }finally {
+                book.close();
+            }
+        }
+
+    }
     @Resource
     private NumberDao numberDao;
 
     @PostMapping("/getByKeys2")
     public String getByKeys2(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
         int startSize = reqDTO.startSize;
-        
+
 //        List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\6月13历史记录.xls",200);
 //        long mulRed = 1;
 //        long mulAll = 1;

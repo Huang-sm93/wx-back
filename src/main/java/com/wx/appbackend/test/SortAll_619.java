@@ -19,7 +19,7 @@ public class SortAll_619 {
     static List<Integer> initListA;
 
     public static void main(String[] args) throws WriteException, IOException {
-        List<List<Integer>> lastList = ReadExcelUtility.getBFRLastNumbersAll2();
+        List<List<Integer>> lastList = ReadExcelUtility.getDCRLastNumbersAll2();
         CellNumber[] allRed = new CellNumber[36];
         CellNumber[] allBlue = new CellNumber[13];
         // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
@@ -43,14 +43,10 @@ public class SortAll_619 {
         }
         List<CellNumber> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
         List<CellNumber> blueList = Arrays.stream(allBlue).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
-        List<Integer> mostRed = redList.subList(0,12).stream().map(o->o.number).collect(Collectors.toList());
-        List<Integer> mostBlue = blueList.subList(0,3).stream().map(o->o.number).collect(Collectors.toList());
-        List<Integer> lessRed = redList.subList(redList.size()-8,redList.size()).stream().map(o->o.number).collect(Collectors.toList());
-        List<Integer> lessBlue =  blueList.subList(blueList.size()-3,blueList.size()).stream().map(o->o.number).collect(Collectors.toList());
-        System.out.println("最多："+mostRed);
-        System.out.println("最多："+mostBlue);
-        System.out.println("最少："+lessRed);
-        System.out.println("最少："+lessBlue);
+//        List<Integer> mostRed = redList.subList(0,12).stream().map(o->o.number).collect(Collectors.toList());
+//        List<Integer> mostBlue = blueList.subList(0,3).stream().map(o->o.number).collect(Collectors.toList());
+//        List<Integer> lessRed = redList.subList(redList.size()-8,redList.size()).stream().map(o->o.number).collect(Collectors.toList());
+//        List<Integer> lessBlue =  blueList.subList(blueList.size()-3,blueList.size()).stream().map(o->o.number).collect(Collectors.toList());
         System.out.println("全："+redList.stream().map(o->o.number).collect(Collectors.toList()));
         System.out.println("全："+blueList.stream().map(o->o.number).collect(Collectors.toList()));
     }

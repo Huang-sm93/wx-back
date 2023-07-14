@@ -55,6 +55,51 @@ public class DoubleColorServiceImpl implements DoubleColorService {
     }
 
     @Override
+    public List<List<Integer>> getBFRyIdLimit(long start, int num1, int num2) {
+        List<BallNumbers> list = numberDao.getBFRByIdLimit(start, 1000);
+        List<List<Integer>> res = new ArrayList<>();
+        for (BallNumbers ballNumbers : list) {
+            List<Integer> temp = new ArrayList<>();
+            temp.add(ballNumbers.number1);
+            temp.add(ballNumbers.number2);
+            temp.add(ballNumbers.number3);
+            temp.add(ballNumbers.number4);
+            temp.add(ballNumbers.number5);
+            res.add(temp);
+        }
+        try {
+            return BigFunUtility.calculate(res, num1, num2);
+        } catch (WriteException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<List<Integer>> getDCRyIdLimit(long start, int num1, int num2) {
+        List<BallNumbers> list = numberDao.getDCRByIdLimit(start, 1000);
+        List<List<Integer>> res = new ArrayList<>();
+        for (BallNumbers ballNumbers : list) {
+            List<Integer> temp = new ArrayList<>();
+            temp.add(ballNumbers.number1);
+            temp.add(ballNumbers.number2);
+            temp.add(ballNumbers.number3);
+            temp.add(ballNumbers.number4);
+            temp.add(ballNumbers.number5);
+            temp.add(ballNumbers.number6);
+            res.add(temp);
+        }
+        try {
+            return DCUtility.calculate(res, num1, num2);
+        } catch (WriteException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<BallNumbersResDTO> getByKeys(BallNumbersReqDTO reqDTO) {
         List<BallNumbersResDTO> res = new ArrayList<>();
         if (reqDTO.numberIndex > 0 || reqDTO.date != null) {
@@ -517,7 +562,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
 
     @Override
     public void calculateBFIndex() throws WriteException, IOException {
-        List<int[]> list = ReadExcelUtility.getBFArrFileName("D:\\Work\\wx-app-backend-master\\BG近100次历史记录1.xls",0);
+        List<int[]> list = ReadExcelUtility.getBFArrFileName("D:\\Work\\wx-app-backend-master\\BF记录.xls",0);
         List<int[]> list1 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             int[] temp = new int[10];
@@ -528,7 +573,9 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             ballNumbers.number3 = values[2];
             ballNumbers.number4 = values[3];
             ballNumbers.number5 = values[4];
-//            BallNumbers ballNumbers1 = numberDao.getBFByKeys(ballNumbers);
+            ballNumbers.number6 = values[5];
+            ballNumbers.number7 = values[6];
+            BallNumbers ballNumbers1 = numberDao.getByKeys(ballNumbers);
             //将ballNumbers1的值记录到temp中
 //            temp[0] = ballNumbers1.number1;
 //            temp[1] = ballNumbers1.number2;
@@ -540,16 +587,18 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             temp[2] = ballNumbers.number3;
             temp[3] = ballNumbers.number4;
             temp[4] = ballNumbers.number5;
-//            temp[6] = Integer.parseInt(""+ballNumbers1.id);
-            temp[7] = temp[0]*temp[1]*temp[2]*temp[3]*temp[4];
-            temp[8] = temp[0]+temp[1]+temp[2]+temp[3]+temp[4];
+            temp[5] = ballNumbers.number6;
+            temp[6] = ballNumbers.number7;
+            temp[7] = Integer.parseInt(""+ballNumbers1.id);
+            temp[8] = temp[0]*temp[1]*temp[2]*temp[3]*temp[4];
+            temp[9] = temp[0]+temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6];
             //记录到excel文件中
             list1.add(temp);
         }
         WritableWorkbook book = null;
         if (list1.size() > 0){
             try {
-                book = Workbook.createWorkbook( new File("BF计算位置结果及乘积.xls" ));
+                book = Workbook.createWorkbook( new File("BF位置计算.xls" ));
                 ReadExcelUtility.writeFile2(list1, book, 1);
                 book.write();
             } catch (IOException | WriteException e) {

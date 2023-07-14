@@ -27,9 +27,9 @@ public class TestBigFun605_1 {
                         count++;
                     }
                 }
-                if (count >= 4){
+
                     System.out.println(lastList.get(i)+"位置"+i+"命中："+count);
-                }
+
             }
 
 //            System.out.println("============第"+l+"次================");
@@ -148,11 +148,11 @@ public class TestBigFun605_1 {
 //        initList.add(30);
 
 
-        initListA.add(2);
-        initListA.add(6);
-        initListA.add(7);
-        initListA.add(17);
-        initListA.add(26);
+        initListA.add(8);
+        initListA.add(20);
+        initListA.add(21);
+        initListA.add(25);
+        initListA.add(32);
 //        initList.add(27);
 //        initList.add(35);
     }

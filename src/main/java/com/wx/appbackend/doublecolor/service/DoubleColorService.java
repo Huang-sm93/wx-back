@@ -28,6 +28,9 @@ public interface DoubleColorService {
 
     BallNumbers getById(long l);
 
+    public List<List<Integer>> getBFRyIdLimit(long start, int num1, int num2);
+    public List<List<Integer>> getDCRyIdLimit(long start, int num1, int num2);
+
     List<BallNumbersResDTO> getByKeys(BallNumbersReqDTO reqDTO);
 
     List<BallNumbersResDTO> getByKeys1(BallNumbersReqDTO reqDTO);

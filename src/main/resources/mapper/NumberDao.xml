@@ -112,5 +112,21 @@
         number3 = #{number3,jdbcType=INTEGER} and number4 = #{number4,jdbcType=INTEGER} and
         number5 = #{number5,jdbcType=INTEGER}
     </select>
+    <select id="getBFRByIdLimit" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="BFR_Base_Column"/>
+        from big_fun_red_ball
+        where
+        id > #{start,jdbcType=BIGINT}
+        limit 0,#{limit,jdbcType=INTEGER}
+    </select>
+    <select id="getDCRByIdLimit" resultType="com.wx.appbackend.doublecolor.entity.BallNumbers">
+        select
+        <include refid="DCR_Base_Column"/>
+        from double_color_red_ball
+        where
+        id > #{start,jdbcType=BIGINT}
+        limit 0,#{limit,jdbcType=INTEGER}
+    </select>
 
 </mapper>

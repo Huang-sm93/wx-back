@@ -2,6 +2,7 @@ package com.wx.appbackend.doublecolor.dao;
 
 import com.wx.appbackend.doublecolor.entity.BallNumbers;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,4 +37,7 @@ public interface NumberDao {
     BallNumbers getDCByKeys(BallNumbers ballNumbers);
 
     BallNumbers getBFByKeys(BallNumbers ballNumbers);
+
+    List<BallNumbers> getBFRByIdLimit(@Param("start") long start, @Param("limit") int limit);
+    List<BallNumbers> getDCRByIdLimit(@Param("start") long start, @Param("limit") int limit);
 }

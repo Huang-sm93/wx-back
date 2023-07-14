@@ -14,46 +14,12 @@ import java.util.stream.Collectors;
  * User:  sm.huang
  * Date:  2023/5/23
  */
-public class SortAll_620_1 {
+public class SortAll_622 {
 
     static List<Integer> initListA;
 
     public static void main(String[] args) throws WriteException, IOException {
         List<List<Integer>> lastList = ReadExcelUtility.getDCRLastNumbersAll2();
-
-//        List<Integer> reds = new ArrayList<>();
-//        for (int i = 1; i < 36; i++) {
-//            reds.add(i);
-//        }
-//        boolean flag = true;
-//        for (int i = 0; i < 10000000; i++) {
-//            List<Integer> lastRedList = getResult(reds);
-//            int times = 0;
-//            for (List<Integer> integers : lastList) {
-//                int count = 0;
-//                List<Integer> temp = integers.subList(0,12);
-//                for (int j = 0; j < lastRedList.size(); j++) {
-//                    if (temp.contains(lastRedList.get(j))){
-//                        count++;
-//                    }
-//                }
-//                if (count >= 4){
-//                    if (times < 2){
-//                        times++;
-//                    }else {
-//                        flag = false;
-//                        break;
-//                    }
-//                }
-//            }
-//            if (flag){
-//                System.out.println("第" + i + "次");
-//                System.out.println(lastRedList);
-//                break;
-//            }
-//        }
-
-
         CellNumber[] allRed = new CellNumber[34];
         CellNumber[] allBlue = new CellNumber[17];
         // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
@@ -67,35 +33,22 @@ public class SortAll_620_1 {
                 allRed[index].count = allRed[index].count + 1;
             }
             // 获取蓝色
-//            for (int j = 12; j < 14; j++) {
-//                int index = lastList.get(i).get(j);
-//                if (allBlue[index] == null){
-//                    allBlue[index] = new CellNumber(index, 0);
-//                }
-//                allBlue[index].count = allBlue[index].count + 1;
-//            }
+            for (int j = 12; j < 14; j++) {
+                int index = lastList.get(i).get(j);
+                if (allBlue[index] == null){
+                    allBlue[index] = new CellNumber(index, 0);
+                }
+                allBlue[index].count = allBlue[index].count + 1;
+            }
         }
         List<CellNumber> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
-//        List<CellNumber> blueList = Arrays.stream(allBlue).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
-        int i=1;
-        for (CellNumber cellNumber : redList) {
-            System.out.println(i++ + " " +cellNumber.number + " " + cellNumber.count);
-        }
-//        int j=1;
-//        System.out.println("====================================");
-//        for (CellNumber cellNumber : blueList) {
-//            System.out.println(j++ + " " +cellNumber.number + " " + cellNumber.count);
-//        }
+        List<CellNumber> blueList = Arrays.stream(allBlue).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
 //        List<Integer> mostRed = redList.subList(0,12).stream().map(o->o.number).collect(Collectors.toList());
 //        List<Integer> mostBlue = blueList.subList(0,3).stream().map(o->o.number).collect(Collectors.toList());
 //        List<Integer> lessRed = redList.subList(redList.size()-8,redList.size()).stream().map(o->o.number).collect(Collectors.toList());
 //        List<Integer> lessBlue =  blueList.subList(blueList.size()-3,blueList.size()).stream().map(o->o.number).collect(Collectors.toList());
-//        System.out.println("最多："+mostRed);
-//        System.out.println("最多："+mostBlue);
-//        System.out.println("最少："+lessRed);
-//        System.out.println("最少："+lessBlue);
-//        System.out.println("全："+redList.stream().map(o->o.number).collect(Collectors.toList()));
-//        System.out.println("全："+blueList.stream().map(o->o.number).collect(Collectors.toList()));
+        System.out.println("全："+redList.stream().map(o->o.number).collect(Collectors.toList()));
+        System.out.println("全："+blueList.stream().map(o->o.number).collect(Collectors.toList()));
     }
 
     static {
@@ -126,6 +79,8 @@ public class SortAll_620_1 {
         for (int j = 0; j < 6; j++) {
             result.add(getRandomNum(redTemp, random));
         }
+
+
         return result;
     }
 }

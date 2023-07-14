@@ -4,69 +4,81 @@ import jxl.write.WriteException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Created by Intellij IDEA.
  * User:  sm.huang
  * Date:  2023/5/23
  */
-public class SortAll_620_1 {
+public class BigFunUtility {
 
     static List<Integer> initListA;
 
-    public static void main(String[] args) throws WriteException, IOException {
-        List<List<Integer>> lastList = ReadExcelUtility.getDCRLastNumbersAll2();
+    public static List<List<Integer>> calculate(List<List<Integer>> canSelect, int num1, int num2) throws WriteException, IOException {
+        if (canSelect == null || canSelect.size() == 0) {
+            return null;
+        }
+        List<List<Integer>> lastList = ReadExcelUtility.getBFRLastNumbersAll2();
 
 //        List<Integer> reds = new ArrayList<>();
-//        for (int i = 1; i < 36; i++) {
+//        for (int i = 1; i < 34; i++) {
 //            reds.add(i);
 //        }
-//        boolean flag = true;
-//        for (int i = 0; i < 10000000; i++) {
-//            List<Integer> lastRedList = getResult(reds);
-//            int times = 0;
-//            for (List<Integer> integers : lastList) {
-//                int count = 0;
-//                List<Integer> temp = integers.subList(0,12);
-//                for (int j = 0; j < lastRedList.size(); j++) {
-//                    if (temp.contains(lastRedList.get(j))){
-//                        count++;
-//                    }
-//                }
-//                if (count >= 4){
-//                    if (times < 2){
-//                        times++;
-//                    }else {
-//                        flag = false;
-//                        break;
-//                    }
-//                }
-//            }
-//            if (flag){
-//                System.out.println("第" + i + "次");
-//                System.out.println(lastRedList);
-//                break;
-//            }
-//        }
+        List<List<Integer>> res = new ArrayList<>();
+        boolean flag = true;
+        for (int i = 0; i < canSelect.size(); i++) {
 
-
-        CellNumber[] allRed = new CellNumber[34];
-        CellNumber[] allBlue = new CellNumber[17];
-        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-        for (int i = 0; i < lastList.size(); i++) {
-            // 获取红色
-            for (int j = 0; j < 12; j++) {
-                int index = lastList.get(i).get(j);
-                if (allRed[index] == null){
-                    allRed[index] = new CellNumber(index, 0);
+            List<Integer> lastRedList = canSelect.get(i);
+            int times1 = 0;
+            int times2 = 0;
+            for (List<Integer> integers : lastList) {
+                int count = 0;
+                List<Integer> temp = integers.subList(0,12);
+                for (int j = 0; j < lastRedList.size(); j++) {
+                    if (temp.contains(lastRedList.get(j))){
+                        count++;
+                    }
                 }
-                allRed[index].count = allRed[index].count + 1;
+                if (count > 4 ){
+                    if (times1 < num1){
+                        times1++;
+                    }else {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (count > 3){
+                    if (times2 < num2){
+                        times2++;
+                    }else {
+                        flag = false;
+                        break;
+                    }
+                }
             }
-            // 获取蓝色
+            if (flag){
+                System.out.println("第" + i + "次");
+                System.out.println(lastRedList);
+                res.add(lastRedList);
+            }
+        }
+
+        return res;
+//        CellNumber[] allRed = new CellNumber[34];
+//        CellNumber[] allBlue = new CellNumber[17];
+//        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+//        for (int i = 0; i < lastList.size(); i++) {
+//            // 获取红色
+//            for (int j = 0; j < 12; j++) {
+//                int index = lastList.get(i).get(j);
+//                if (allRed[index] == null){
+//                    allRed[index] = new CellNumber(index, 0);
+//                }
+//                allRed[index].count = allRed[index].count + 1;
+//            }
+//            // 获取蓝色
 //            for (int j = 12; j < 14; j++) {
 //                int index = lastList.get(i).get(j);
 //                if (allBlue[index] == null){
@@ -74,13 +86,13 @@ public class SortAll_620_1 {
 //                }
 //                allBlue[index].count = allBlue[index].count + 1;
 //            }
-        }
-        List<CellNumber> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
+//        }
+//        List<CellNumber> redList = Arrays.stream(allRed).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
 //        List<CellNumber> blueList = Arrays.stream(allBlue).filter(o-> o!=null).sorted((o1, o2) -> o2.count - o1.count).collect(Collectors.toList());
-        int i=1;
-        for (CellNumber cellNumber : redList) {
-            System.out.println(i++ + " " +cellNumber.number + " " + cellNumber.count);
-        }
+//        int i=1;
+//        for (CellNumber cellNumber : redList) {
+//            System.out.println(i++ + " " +cellNumber.number + " " + cellNumber.count);
+//        }
 //        int j=1;
 //        System.out.println("====================================");
 //        for (CellNumber cellNumber : blueList) {
