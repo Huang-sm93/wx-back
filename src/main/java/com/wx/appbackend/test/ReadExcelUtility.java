@@ -283,7 +283,7 @@ public class ReadExcelUtility {
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\统计621.xls"));
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\BF记录925.xls"));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
@@ -1010,6 +1010,58 @@ public class ReadExcelUtility {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<Integer> temp = new ArrayList<>();
                 for (int j = 0; j < 7; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<Integer>> getBFLastNumbersAll() {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\BF记录925.xls")));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 1; j < 8; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<Integer>> getBFLastNumbersOther() {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\dalttou111.xls")));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 0; j < 15; j++) {
                     temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
                 }
                 result.add(temp);
