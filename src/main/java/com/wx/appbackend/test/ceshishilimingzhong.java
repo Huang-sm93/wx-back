@@ -23,18 +23,15 @@ public class ceshishilimingzhong {
         for (int j = 0; j < lastList.size(); j++) {
             List<Integer> list = lastList.get(j);
             int count = 0;
-            for (int i = 0; i < 7; i++) {
-                if (i == 6){
-                    count = list.get(i) == 5 ? count + 1 : count;
-                }else {
+            for (int i = 0; i < 12; i++) {
+
                     if (initListA.contains(list.get(i))){
                         count++;
                     }
-                }
+
 
                 if (count >= 5){
                     System.out.println("位置"+j +"  "+ list);
-                    break;
                 }
 
             }
@@ -44,24 +41,12 @@ public class ceshishilimingzhong {
 
     static {
         initListA = new ArrayList<>();
-//        initListA.add(2);
-//        initListA.add(3);
-//        initListA.add(5);
-//        initListA.add(8);
-//        initListA.add(14);
-//        initListA.add(25);
-//        initListA.add(30);
-//        initListA.add(31);
-
-
-        initListA.add(2);
-        initListA.add(3);
         initListA.add(5);
-        initListA.add(11);
-        initListA.add(17);
-        initListA.add(22);
+        initListA.add(14);
+        initListA.add(10);
+        initListA.add(23);
         initListA.add(25);
-        initListA.add(31);
+        initListA.add(33);
 
 
 //        initListA.add(12);

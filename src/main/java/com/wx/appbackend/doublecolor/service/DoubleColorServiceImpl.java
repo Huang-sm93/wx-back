@@ -562,7 +562,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
 
     @Override
     public void calculateBFIndex() throws WriteException, IOException {
-        List<int[]> list = ReadExcelUtility.getBFArrFileName("D:\\Work\\wx-app-backend-master\\BF记录.xls",0);
+        List<int[]> list = ReadExcelUtility.getBFArrFileName("D:\\Work\\wx-app-backend-master\\BF2记录.xls",0);
         List<int[]> list1 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             int[] temp = new int[10];
@@ -573,15 +573,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             ballNumbers.number3 = values[2];
             ballNumbers.number4 = values[3];
             ballNumbers.number5 = values[4];
-            ballNumbers.number6 = values[5];
-            ballNumbers.number7 = values[6];
-            BallNumbers ballNumbers1 = numberDao.getByKeys(ballNumbers);
-            //将ballNumbers1的值记录到temp中
-//            temp[0] = ballNumbers1.number1;
-//            temp[1] = ballNumbers1.number2;
-//            temp[2] = ballNumbers1.number3;
-//            temp[3] = ballNumbers1.number4;
-//            temp[4] = ballNumbers1.number5;
+            BallNumbers ballNumbers1 = numberDao.getBFByKeys(ballNumbers);
             temp[0] = ballNumbers.number1;
             temp[1] = ballNumbers.number2;
             temp[2] = ballNumbers.number3;
