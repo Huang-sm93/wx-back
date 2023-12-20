@@ -8,10 +8,17 @@ package com.wx.appbackend.test;
 public class CellNumber implements Comparable {
     public int number;
     public int count;
+    public int isTrue;
 
     public CellNumber(int number, int count) {
         this.number = number;
         this.count = count;
+    }
+
+    public CellNumber(int number, int count, int isTrue) {
+        this.number = number;
+        this.count = count;
+        this.isTrue = isTrue;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class TestBigFun605_1 {
     public static List<Integer> initList;
 
     public static void main(String[] args) {
-        List<List<Integer>> lastList = ReadExcelUtility.getBFLastNumbersAll();
+        List<List<Integer>> lastList = ReadExcelUtility.getBFLastNumbersAll("1216");
         for (int i = 0; i < lastList.size(); i++) {
             int count = 0;
             for (int j = 0; j < 5; j++) {

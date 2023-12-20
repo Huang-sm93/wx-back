@@ -27,7 +27,7 @@ public class CountEveryNumberBF {
 
     }
     public static void calculateFirstNumber(int startSize, int stepSize, int length) {
-        List<List<Integer>> historyList = ReadExcelUtility.getBFLastNumbersAll();
+        List<List<Integer>> historyList = ReadExcelUtility.getBFLastNumbersAll("1216");
         int countTrue = 0;
         for (int j = 0; j < length; j++) {
             int[] countR = new int[13];

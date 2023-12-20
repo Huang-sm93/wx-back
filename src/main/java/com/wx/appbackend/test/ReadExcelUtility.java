@@ -4,16 +4,21 @@ import io.swagger.models.auth.In;
 import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.format.Colour;
+import jxl.format.UnderlineStyle;
 import jxl.read.biff.BiffException;
 import jxl.write.*;
+import jxl.write.Label;
 import jxl.write.Number;
 import org.apache.commons.lang3.StringUtils;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Intellij IDEA.
@@ -1038,18 +1043,18 @@ public class ReadExcelUtility {
         return result;
     }
 
-    public static List<List<Integer>> getBFLastNumbersAll() {
+    public static List<List<Integer>> getBFLastNumbersAll(String date) {
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\BF1025记录.xls")));
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\BF%s记录.xls", date)));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
             for (int i = 0; i < sheet.getRows(); i++) {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<Integer> temp = new ArrayList<>();
-                for (int j = 1; j < 8; j++) {
+                for (int j = 2; j < 7; j++) {
                     temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
                 }
                 result.add(temp);
@@ -1064,18 +1069,71 @@ public class ReadExcelUtility {
         return result;
     }
 
-    public static List<List<Integer>> getDCLastNumbersAll() {
+    public static List<List<Integer>> getDCLastNumbersAll(String date) {
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\ssq125.xls")));
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\ssq%s.xls", date)));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
             for (int i = 0; i < sheet.getRows(); i++) {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<Integer> temp = new ArrayList<>();
-                for (int j = 0; j < 14; j++) {
+                for (int j = 2; j < 8; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    public static List<List<Integer>> getDCLastNumbersBlue(String date) {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\ssq%s.xls", date)));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 8; j < 9; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<Integer>> getBFBlueLastNumbersAll(String date) {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\BF%s记录.xls", date)));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 7; j < 9; j++) {
                     temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
                 }
                 result.add(temp);
@@ -1182,6 +1240,85 @@ public class ReadExcelUtility {
                 sheet.addCell(number2);
             } catch (WriteException e) {
                 throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+    public static void writeFile8(List<List<CellNumber>> list,  WritableWorkbook book, int sheetNum) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                CellNumber temp = list.get(i).get(j);
+                Number number1 = new Number(i, j, temp.number);
+
+                if (temp.isTrue == 1) {
+                    number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                }
+                try {
+                    sheet.addCell(number1);
+
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        }
+    }
+
+
+    public static void writeFile9(List<List<CalculateIndexDCBLUEOrderByCount.CountNumber>> list, WritableWorkbook book, int sheetNum) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                CalculateIndexDCBLUEOrderByCount.CountNumber temp = list.get(i).get(j);
+                Label number1 = new Label(i, j, temp.numbers);
+
+                if (temp.isContain > 0) {
+                    number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                }
+                try {
+                    sheet.addCell(number1);
+
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        }
+    }
+
+    public static void writeFile8Sheet2(List<List<CellNumber>> list,  WritableWorkbook book, int sheetNum) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                CellNumber temp = list.get(i).get(j);
+                Number number1 = new Number(i*3+0, j, temp.number);
+                Number number2 = new Number(i*3+1, j, temp.count);
+                if (temp.isTrue == 1) {
+                    number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                    number2.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                }
+                try {
+                    sheet.addCell(number1);
+                    sheet.addCell(number2);
+
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
 
         }
