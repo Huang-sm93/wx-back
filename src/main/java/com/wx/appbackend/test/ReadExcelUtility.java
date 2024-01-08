@@ -1385,30 +1385,18 @@ public class ReadExcelUtility {
         // 创建第一张工作表
         WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
         // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-        int count = list.size();
         for (int i = 0; i < list.size(); i++) {
                 long temp = list.get(i);
                 Number number0 = new Number(0, i, temp);
-                Number number1 = new Number(1, i, temp%100);
-                Number number2 = new Number(2, i, temp%(count-i));
-                Number number3 = new Number(3, i, temp%1000);
-                Number number4 = new Number(4, i, temp%200);
-                Number number5 = new Number(5, i, temp%200);
-                Number number6 = new Number(6, i, temp%200);
-                try {
-                    sheet.addCell(number0);
+            try {
+                sheet.addCell(number0);
+                for (int j = 1; j < 21; j++) {
+                    Number number1 = new Number(j, i, temp % (j*4));
                     sheet.addCell(number1);
-                    sheet.addCell(number2);
-                    sheet.addCell(number3);
-                    sheet.addCell(number4);
-                    sheet.addCell(number5);
-                    sheet.addCell(number6);
-
-                } catch (WriteException e) {
+                }
+            } catch (WriteException e) {
                     throw new RuntimeException(e);
                 }
-
-
-        }
+            }
     }
 }
