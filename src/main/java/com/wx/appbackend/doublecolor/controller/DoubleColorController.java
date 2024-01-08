@@ -186,6 +186,11 @@ public class DoubleColorController {
         doubleColorService.calculateBFIndex();
     }
 
+    @GetMapping("/calculateDCIndex")
+    public void calculateDCIndex() throws Exception {
+        doubleColorService.calculateDCIndex();
+    }
+
     @PostMapping("/generateBigFunRed")
     public String generateBigFunRed(@RequestBody BallNumbersReqDTO reqDTO) throws Exception {
         return doubleColorService.generateBigFunRed(reqDTO);

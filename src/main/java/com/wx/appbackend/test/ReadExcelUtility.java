@@ -170,6 +170,40 @@ public class ReadExcelUtility {
 
         return result;
     }
+
+    public static List<int[]> getDCArrFileName(String fileName){
+        List<int[]> result = new ArrayList<>();
+        if (StringUtils.isEmpty(fileName)){
+            return null;
+        }
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(fileName));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                int[] temp = new int[7];
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                temp[0] = Integer.parseInt(sheet.getCell(1, i).getContents());
+                temp[1] = Integer.parseInt(sheet.getCell(2, i).getContents());
+                temp[2] = Integer.parseInt(sheet.getCell(3, i).getContents());
+                temp[3] = Integer.parseInt(sheet.getCell(4, i).getContents());
+                temp[4] = Integer.parseInt(sheet.getCell(5, i).getContents());
+                temp[5] = Integer.parseInt(sheet.getCell(6, i).getContents());
+                temp[6] = Integer.parseInt(sheet.getCell(7, i).getContents());
+
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     public static List<List<Integer>> getBFArrFileName1(String fileName, int usedTimes){
         List<List<Integer>> result = new ArrayList<>();
         if (StringUtils.isEmpty(fileName)){
@@ -1095,6 +1129,29 @@ public class ReadExcelUtility {
         return result;
     }
 
+    public static List<Long> getDCLastNumbersAll1() {
+        List<Long> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File("D:\\Work\\wx-app-backend-master\\ssq位置.xls"));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                result.add(Long.parseLong(sheet.getCell(7, i).getContents()));
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
     public static List<List<Integer>> getDCLastNumbersBlue(String date) {
         List<List<Integer>> result = new ArrayList<>();
@@ -1178,7 +1235,7 @@ public class ReadExcelUtility {
         List<List<Integer>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
-            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\BF位置计算.xls")));
+            Workbook workbook = Workbook.getWorkbook(new File(String.format("D:\\Work\\wx-app-backend-master\\ssq位置.xls")));
             // 获取第一张工作表
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
@@ -1320,6 +1377,37 @@ public class ReadExcelUtility {
                 }
 
             }
+
+        }
+    }
+
+    public static void writeFile18(List<Long> list, WritableWorkbook book, int sheetNum) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        int count = list.size();
+        for (int i = 0; i < list.size(); i++) {
+                long temp = list.get(i);
+                Number number0 = new Number(0, i, temp);
+                Number number1 = new Number(1, i, temp%100);
+                Number number2 = new Number(2, i, temp%(count-i));
+                Number number3 = new Number(3, i, temp%1000);
+                Number number4 = new Number(4, i, temp%200);
+                Number number5 = new Number(5, i, temp%200);
+                Number number6 = new Number(6, i, temp%200);
+                try {
+                    sheet.addCell(number0);
+                    sheet.addCell(number1);
+                    sheet.addCell(number2);
+                    sheet.addCell(number3);
+                    sheet.addCell(number4);
+                    sheet.addCell(number5);
+                    sheet.addCell(number6);
+
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
 
         }
     }
