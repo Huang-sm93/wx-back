@@ -13,7 +13,10 @@ public class TestBigFun927 {
     public static List<Integer> initList;
 
     public static void main(String[] args) {
-        List<List<Integer>> lastList = ReadExcelUtility.getBFLastNumbersAll("1216");
+        String indexName = "0315";
+        String name = String.format("/Users/sm.haung/Desktop/wx-back-master/src/main/java/com/wx" +
+                "/appbackend/bfun/bf%s记录.xls", indexName);
+        List<List<Integer>> lastList = ReadExcelUtility.getLastNumbersAll(name);
         for (int index = 0; index < lastList.size(); index++) {
             List<Integer> last = lastList.get(index).subList(0,5);
             System.out.println("======================第" + index + "行======================");

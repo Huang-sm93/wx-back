@@ -1,7 +1,5 @@
 package com.wx.appbackend.test;
 
-import io.swagger.models.auth.In;
-import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.format.Colour;
@@ -12,10 +10,8 @@ import jxl.write.Label;
 import jxl.write.Number;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -393,7 +389,62 @@ public class ReadExcelUtility {
         }
 
         return result;
-    }public static List<List<String>> getDCRLastNumbers1(){
+    }
+
+
+    public static List<List<Integer>> getLastNumbersAll(String fileName){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(fileName));
+            // 获取第一张工作表多数预测68
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 10; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 1; j < 8; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<Integer>> getLastNumbersBFRAll(String fileName){
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(fileName));
+            // 获取第一张工作表多数预测68
+            Sheet sheet = workbook.getSheet(0);
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < sheet.getRows(); i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 2; j < 5; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<String>> getDCRLastNumbers1(){
         List<List<String>> result = new ArrayList<>();
         try {
             // 解析路径的file文件
@@ -888,6 +939,25 @@ public class ReadExcelUtility {
                     throw new RuntimeException(e);
                 }
             }
+        }
+    }
+
+
+ public static void writeFile03(List<CellNumber> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for (int i = 0; i < list.size(); i++) {
+            CellNumber temp = list.get(i);
+            Number number1 = new Number(0, i, temp.number);
+            Number number2 = new Number(1, i, temp.count);
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -1399,4 +1469,318 @@ public class ReadExcelUtility {
                 }
             }
     }
+
+    public static List<List<Integer>> getBF(int size, String name) {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(name));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            int maxSize = size > sheet.getRows() ? sheet.getRows() : size;
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < maxSize; i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                if (Integer.parseInt(sheet.getCell(5, i).getContents()) > 3){
+                    continue;
+                }
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 2; j < 5; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException | BiffException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public static List<List<Integer>> getBFBLUE(int size, String name) {
+        List<List<Integer>> result = new ArrayList<>();
+        try {
+            // 解析路径的file文件
+            Workbook workbook = Workbook.getWorkbook(new File(name));
+            // 获取第一张工作表
+            Sheet sheet = workbook.getSheet(0);
+            int maxSize = size > sheet.getRows() ? sheet.getRows() : size;
+            // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+            for (int i = 0; i < maxSize; i++) {
+                // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+                List<Integer> temp = new ArrayList<>();
+                for (int j = 2; j < 3; j++) {
+                    temp.add(Integer.parseInt(sheet.getCell(j, i).getContents()));
+                }
+                result.add(temp);
+            }
+
+        } catch (IOException | BiffException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static void writeFileSSQRed(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (ssqRedLastList.get(j).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+    public static void writeFileSSQRed(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum, List<List<Integer>> lastList) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (lastList.get(j).subList(0,6).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+
+
+    public static void writeFileSSQBlue(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (ssqBlueLastList.get(j).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+
+
+    public static void writeFileBFBlue(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (bfBlueLastList.get(j).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+
+
+    public static void writeFileBFRed(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (bfRedLastList.get(j).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+
+    public static void writeFileBFRed(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum, List<List<Integer>> curList) throws WriteException, IOException {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+        for (int i = 0; i < list.get(j).size(); i++) {
+            CellNumber temp = list.get(j).get(i);
+            Number number1 = new Number(j*3 , i, temp.number);
+            Number number2 = new Number(j*3+1, i, temp.count);
+            if (curList.get(j).contains(temp.number)) {
+                number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 10,
+                        WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+            }
+            try {
+                sheet.addCell(number1);
+                sheet.addCell(number2);
+            } catch (WriteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        }
+    }
+
+    // 近几次的结果list静态变量
+    public static List<List<Integer>> ssqRedLastList;
+    public static List<List<Integer>> ssqBlueLastList;
+    public static List<List<Integer>> bfBlueLastList;
+    public static List<List<Integer>> bfRedLastList;
+
+    static {
+        ssqRedLastList = new ArrayList<>();
+        ssqBlueLastList = new ArrayList<>();
+        bfBlueLastList = new ArrayList<>();
+        bfRedLastList = new ArrayList<>();
+        // 024 bfb
+        bfBlueLastList.add(Arrays.asList(2,12));
+        // 025 bfb
+        bfBlueLastList.add(Arrays.asList(4,8));
+        // 026 bfb
+        bfBlueLastList.add(Arrays.asList(1,12));
+        // 027 bfb
+        bfBlueLastList.add(Arrays.asList(4,5));
+        // 028 bfb
+        bfBlueLastList.add(Arrays.asList(0));
+
+        // 024 bfr
+        bfRedLastList.add(Arrays.asList(3, 5, 12, 17, 26));
+        // 025 bfr
+        bfRedLastList.add(Arrays.asList(1,2,8,18,27));
+        // 026 bfr
+        bfRedLastList.add(Arrays.asList(1,18,21,26,33));
+        // 027 bfr
+        bfRedLastList.add(Arrays.asList(4,19,24,28,34));
+        // 028 bfr
+        bfRedLastList.add(Arrays.asList(0));
+
+        //023
+        ssqRedLastList.add(Arrays.asList(1, 10, 22, 25, 28, 32));
+        // 024
+        ssqRedLastList.add(Arrays.asList(3,7,21,24,26,30));
+        // 025
+        ssqRedLastList.add(Arrays.asList(8,15,21,22,25,33));
+        // 026
+        ssqRedLastList.add(Arrays.asList(4,7,18,19,20,25));
+        // 027
+        ssqRedLastList.add(Arrays.asList(0));
+
+        //023
+        ssqBlueLastList.add(Arrays.asList(10));
+        // 024
+        ssqBlueLastList.add(Arrays.asList(10));
+        // 025
+        ssqBlueLastList.add(Arrays.asList(13));
+        // 026
+        ssqBlueLastList.add(Arrays.asList(6));
+        // 027
+        ssqBlueLastList.add(Arrays.asList(0));
+    }
+
+    public static void writeFileBFRed1(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum, List<List<Integer>> lastList) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        List<List<Integer>> lastList1 = new ArrayList<>();
+        lastList1.add(Arrays.asList(0,0,0,0,0));
+        lastList1.addAll(lastList);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+            for (int i = 0; i < list.get(j).size(); i++) {
+                CellNumber temp = list.get(j).get(i);
+                Number number1 = new Number(j*3 , i, temp.number);
+                Number number2 = new Number(j*3+1, i, temp.count);
+                if (lastList1.get(j).subList(0,5).contains(temp.number)) {
+                    number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 12,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                }
+                try {
+                    sheet.addCell(number1);
+                    sheet.addCell(number2);
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+    }
+    public static void writeFileBFBlue1(List<List<CellNumber>> list, WritableWorkbook book, int sheetNum, List<List<Integer>> lastList) {
+        // 创建第一张工作表
+        WritableSheet sheet = book.createSheet( " 第"+sheetNum+"页 " , sheetNum);
+        List<List<Integer>> lastList1 = new ArrayList<>();
+        lastList1.add(Arrays.asList(0,0,0,0,0,0,0,0));
+        lastList1.addAll(lastList);
+        // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
+        for(int j = 0; j < list.size(); j++) {
+
+            for (int i = 0; i < list.get(j).size(); i++) {
+                CellNumber temp = list.get(j).get(i);
+                Number number1 = new Number(j*3 , i, temp.number);
+                Number number2 = new Number(j*3+1, i, temp.count);
+                if (lastList1.get(j).subList(5,7).contains(temp.number)) {
+                    number1.setCellFormat(new WritableCellFormat(new WritableFont(WritableFont.ARIAL, 12,
+                            WritableFont.BOLD, true, UnderlineStyle.NO_UNDERLINE, Colour.BLUE)));
+                }
+                try {
+                    sheet.addCell(number1);
+                    sheet.addCell(number2);
+                } catch (WriteException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+    }
+
 }
