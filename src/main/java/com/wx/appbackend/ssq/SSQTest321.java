@@ -22,8 +22,7 @@ public class SSQTest321 {
 
     public static void main(String[] args) throws WriteException, IOException {
         String indexName = "0321";
-        String name = String.format("/Users/sm.haung/Desktop/wx-back-master/src/main/java/com/wx" +
-                "/appbackend/ssq/ssq%s记录.xls", indexName);
+        String name = String.format("/Users/ta/IdeaProjects/wx-back/src/main/java/com/wx/appbackend/ssq/ssq%s记录.xls", indexName);
         List<List<Integer>> lastList = ReadExcelUtility.getLastNumbersAll(name);
         int startIndex = 2;
         int step = 3;
@@ -49,8 +48,7 @@ public class SSQTest321 {
             WritableWorkbook book = null;
             try {
                 book = Workbook.createWorkbook(
-                        new File(String.format("/Users/sm.haung/Desktop/wx-back-master/src/main/java/com/wx/appbackend/" +
-                                "ssq/0321统计ssq红%s.xls", indexName )));
+                        new File(String.format("/Users/ta/IdeaProjects/wx-back/src/main/java/com/wx/appbackend/ssq/0321统计ssq红%s.xls", indexName )));
                 ReadExcelUtility.writeFileSSQRed(redAll, book, 1,lastList);
                 book.write();
             } catch (IOException | WriteException e) {
@@ -64,11 +62,7 @@ public class SSQTest321 {
     private static final List<List<Integer>> myList = new ArrayList<>();
 
     static {
-        myList.add(Arrays.asList(2,13,19,24,21,22, 3));
-        myList.add(Arrays.asList(5,9,18,26,27,29, 3));
-        myList.add(Arrays.asList(4,9,13,14,25,32, 3));
-        myList.add(Arrays.asList(3,9,12,22,23,31, 3));
-        myList.add(Arrays.asList(3,8,13,19,24,28, 3));
+        myList.add(Arrays.asList(3,6,10,14,16,32,13));
     }
 }
 

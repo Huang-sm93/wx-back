@@ -400,7 +400,7 @@ public class ReadExcelUtility {
             // 获取第一张工作表多数预测68
             Sheet sheet = workbook.getSheet(0);
             // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果需要读取标题行，从 0 开始
-            for (int i = 10; i < sheet.getRows(); i++) {
+            for (int i = 0; i < sheet.getRows(); i++) {
                 // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
                 List<Integer> temp = new ArrayList<>();
                 for (int j = 1; j < 8; j++) {
