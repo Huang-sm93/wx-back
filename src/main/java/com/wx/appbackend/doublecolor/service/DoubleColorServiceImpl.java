@@ -1,12 +1,9 @@
 package com.wx.appbackend.doublecolor.service;
 
 import com.wx.appbackend.doublecolor.dao.NumberDao;
-import com.wx.appbackend.doublecolor.entity.BallNumbers;
-import com.wx.appbackend.doublecolor.entity.BallNumbersReqDTO;
-import com.wx.appbackend.doublecolor.entity.BallNumbersResDTO;
-import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
+import com.wx.appbackend.doublecolor.entity.*;
 import com.wx.appbackend.doublecolor.util.CalculateUtility;
-import com.wx.appbackend.test.*;
+import com.wx.appbackend.study.ReadExcelUtility;
 import jxl.Workbook;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -29,18 +26,12 @@ public class DoubleColorServiceImpl implements DoubleColorService {
 
     @Override
     public List<CellInfo> getPage(Map<String, Object> map) {
-        return ReadExcelUtility.getArrFileName("历史记录.xls",0, 10);
+        return null;
     }
 
     @Override
     public List<int[]> generateByPara(GenerateNumReqDTO reqDTO) {
         return CalculateUtility.getListByPara(reqDTO);
-    }
-
-    @Override
-    public int insertBigFunBatch(List<BallNumbers> list) throws Exception {
-        numberDao.insertBatch(list);
-        return 1;
     }
 
     @Override
@@ -67,13 +58,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             temp.add(ballNumbers.number5);
             res.add(temp);
         }
-        try {
-            return BigFunUtility.calculate(res, num1, num2);
-        } catch (WriteException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
@@ -90,13 +75,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
             temp.add(ballNumbers.number6);
             res.add(temp);
         }
-        try {
-            return DCUtility.calculate(res, num1, num2);
-        } catch (WriteException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
@@ -327,7 +306,6 @@ public class DoubleColorServiceImpl implements DoubleColorService {
                 book.close();
             }
         }
-        TestBigFun.test();
         return res;
     }
 
@@ -369,42 +347,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
 
     @Override
     public void getLastTimes() throws WriteException, IOException {
-        List<CellInfo> list = ReadExcelUtility.getArrFileName("D:\\Work\\wx-app-backend-master\\6月13历史记录.xls",200);
-        List<int[]> list1 = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            int[] temp = new int[7];
-            CellInfo cellInfo = list.get(i);
-            BallNumbers ballNumbers = new BallNumbers();
-            ballNumbers.number1 = cellInfo.values[0];
-            ballNumbers.number2 = cellInfo.values[1];
-            ballNumbers.number3 = cellInfo.values[2];
-            ballNumbers.number4 = cellInfo.values[3];
-            ballNumbers.number5 = cellInfo.values[4];
-            ballNumbers.number6 = cellInfo.values[5];
-            BallNumbers ballNumbers1 = numberDao.getDCByKeys(ballNumbers);
-            //将ballNumbers1的值记录到temp中
-            temp[0] = ballNumbers1.number1;
-            temp[1] = ballNumbers1.number2;
-            temp[2] = ballNumbers1.number3;
-            temp[3] = ballNumbers1.number4;
-            temp[4] = ballNumbers1.number5;
-            temp[5] = ballNumbers1.number6;
-            temp[6] = Integer.parseInt(""+ballNumbers1.id);
-            //记录到excel文件中
-            list1.add(temp);
-        }
-        WritableWorkbook book = null;
-        if (list1.size() > 0){
-            try {
-                book = Workbook.createWorkbook( new File("计算位置结果.xls" ));
-                ReadExcelUtility.writeFile2(list1, book, 1);
-                book.write();
-            } catch (IOException | WriteException e) {
-                throw new RuntimeException(e);
-            }finally {
-                book.close();
-            }
-        }
+
     }
 
     @Override
@@ -481,7 +424,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
                 book.close();
             }
         }
-        return TestBigFun.test();
+        return null;
     }
 
     @Override
@@ -516,7 +459,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
                 book.close();
             }
         }
-        return TestBigFun.getCalculateResult();
+        return null;
     }
 
     @Override
@@ -557,7 +500,7 @@ public class DoubleColorServiceImpl implements DoubleColorService {
                 book.close();
             }
         }
-        return TestDoubleColor.getCalculateResult();
+        return null;
     }
 
     @Override

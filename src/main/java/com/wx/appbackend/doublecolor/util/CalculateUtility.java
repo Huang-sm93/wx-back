@@ -1,7 +1,7 @@
 package com.wx.appbackend.doublecolor.util;
 
 import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
-import com.wx.appbackend.test.ReadExcelUtility;
+import com.wx.appbackend.study.ReadExcelUtility;
 
 import java.util.ArrayList;
 import java.util.Arrays;

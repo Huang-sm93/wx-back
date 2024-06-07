@@ -2,13 +2,9 @@ package com.wx.appbackend.doublecolor.controller;
 
 import com.wx.appbackend.common.ServiceData;
 import com.wx.appbackend.doublecolor.dao.NumberDao;
-import com.wx.appbackend.doublecolor.entity.BallNumbersReqDTO;
-import com.wx.appbackend.doublecolor.entity.BallNumbersResDTO;
-import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
+import com.wx.appbackend.doublecolor.entity.*;
 import com.wx.appbackend.doublecolor.service.DoubleColorServiceImpl;
-import com.wx.appbackend.test.CellInfo;
-import com.wx.appbackend.doublecolor.entity.BallNumbers;
-import com.wx.appbackend.test.ReadExcelUtility;
+import com.wx.appbackend.study.ReadExcelUtility;
 import jxl.Workbook;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;

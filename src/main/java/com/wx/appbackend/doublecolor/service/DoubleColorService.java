@@ -1,10 +1,6 @@
 package com.wx.appbackend.doublecolor.service;
 
-import com.wx.appbackend.doublecolor.entity.BallNumbersReqDTO;
-import com.wx.appbackend.doublecolor.entity.BallNumbersResDTO;
-import com.wx.appbackend.doublecolor.entity.GenerateNumReqDTO;
-import com.wx.appbackend.test.CellInfo;
-import com.wx.appbackend.doublecolor.entity.BallNumbers;
+import com.wx.appbackend.doublecolor.entity.*;
 import jxl.write.WriteException;
 
 import java.io.IOException;
@@ -21,8 +17,6 @@ public interface DoubleColorService {
     List<CellInfo> getPage(Map<String, Object> map);
 
     List<int[]> generateByPara(GenerateNumReqDTO reqDTO);
-
-    int insertBigFunBatch(List<BallNumbers> list) throws Exception;
 
     int insertBatch1(List<BallNumbers> list) throws Exception;
 
