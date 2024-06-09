@@ -22,7 +22,7 @@ public class ProductController {
     @GetMapping("/orderSync")
     public ServiceData<String> orderSync()throws Exception{
         ServiceData sd = new ServiceData();
-        orderService.createOrderSync();
+//        orderService.createOrderSync();
         sd.setBo("success");
         return sd;
     }
