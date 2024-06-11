@@ -1,9 +1,11 @@
-package com.wx.appbackend.user.controller;
+package com.wx.appbackend.controller;
 
 import com.wx.appbackend.common.ServiceData;
 import com.wx.appbackend.user.entity.UserPageDto;
 import com.wx.appbackend.user.entity.UserReqDto;
 import com.wx.appbackend.user.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +14,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/users")
+@Api(value = "用户管理")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/get")
+    @ApiOperation(value = "获取用户信息")
     public ServiceData<UserPageDto> getUser(@RequestParam("id") Long id)throws Exception{
         ServiceData sd = new ServiceData();
         sd.setBo(userService.get(id));
