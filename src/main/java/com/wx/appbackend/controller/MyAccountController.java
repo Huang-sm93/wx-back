@@ -4,7 +4,7 @@ import com.wx.appbackend.common.RetCode;
 import com.wx.appbackend.common.ServiceData;
 import com.wx.appbackend.service.myaccount.entity.AccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.AccountResDTO;
-import com.wx.appbackend.service.myaccount.service.AccountServiceImpl;
+import com.wx.appbackend.service.myaccount.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

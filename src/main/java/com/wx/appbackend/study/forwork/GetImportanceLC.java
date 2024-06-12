@@ -1,4 +1,4 @@
-package com.wx.appbackend.forwork;
+package com.wx.appbackend.study.forwork;
 
 import java.util.*;
 

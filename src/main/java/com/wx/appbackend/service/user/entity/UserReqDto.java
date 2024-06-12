@@ -1,18 +1,17 @@
 package com.wx.appbackend.service.user.entity;
 
-import lombok.Data;
+import java.io.Serializable;
 
-@Data
-public class UserReqDto {
+public class UserReqDto implements Serializable {
 
-    private Long id;
+    public Long id;
 
-    private String userName;
+    public String userName;
 
-    private String passwd;
+    public String passwd;
 
     /**
      * 性别 男M 女W 默认值M
      */
-    private String sex;
+    public String sex;
 }

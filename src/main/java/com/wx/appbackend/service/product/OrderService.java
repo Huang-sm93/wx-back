@@ -1,7 +1,5 @@
 package com.wx.appbackend.service.product;
 
-import org.springframework.stereotype.Service;
-
 /**
  * Created by Intellij IDEA.
  * User:  sm.huang

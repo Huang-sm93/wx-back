@@ -1,7 +1,7 @@
 package com.wx.appbackend.service.user.dao;
 
 import com.wx.appbackend.service.user.entity.User;
-import com.wx.appbackend.service.user.entity.UserPageDto;
+import com.wx.appbackend.service.user.entity.UserResDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public interface UserDao {
 
     int insert(User user)throws Exception;
 
-    UserPageDto selectById(Long key)throws Exception;
+    UserResDto selectById(Long key)throws Exception;
 
-    List<UserPageDto> getPage(Map<String, Object> key)throws Exception;
+    List<UserResDto> getPage(Map<String, Object> key)throws Exception;
 
     int updateByPrimaryKey(User user) throws Exception;
 }

@@ -1,4 +1,4 @@
-package com.wx.appbackend.service.myaccount.service;
+package com.wx.appbackend.service.myaccount;
 
 import com.wx.appbackend.service.myaccount.entity.AccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.AccountResDTO;

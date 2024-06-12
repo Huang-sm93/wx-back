@@ -1,8 +1,8 @@
-package com.wx.appbackend.service.user.service;
+package com.wx.appbackend.service.user;
 
 import com.wx.appbackend.service.user.dao.UserDao;
 import com.wx.appbackend.service.user.entity.User;
-import com.wx.appbackend.service.user.entity.UserPageDto;
+import com.wx.appbackend.service.user.entity.UserResDto;
 import com.wx.appbackend.service.user.entity.UserReqDto;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +18,12 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public UserPageDto get(Long id) throws Exception {
+    public UserResDto get(Long id) throws Exception {
         return userDao.selectById(id);
     }
 
     @Override
-    public List<UserPageDto> getPage(Map<String, Object> map) throws Exception {
+    public List<UserResDto> getPage(Map<String, Object> map) throws Exception {
         return userDao.getPage(map);
     }
 

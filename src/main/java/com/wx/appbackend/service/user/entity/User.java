@@ -1,41 +1,34 @@
 package com.wx.appbackend.service.user.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * wx_user
- * @author 
- */
-@Data
 public class User implements Serializable {
 
     /**
      * id
      */
-    private Long id;
+    public Long id;
 
-    private String userName;
+    public String userName;
 
-    private String passwd;
+    public String passwd;
 
     /**
      * 性别 男M 女W 默认值M
      */
-    private String sex;
+    public String sex;
 
     /**
      * 有效标识
      */
-    private String enabledFlag;
+    public String enabledFlag;
 
-    private Date lastLogin;
+    public Date lastLogin;
 
-    private Date createDate;
+    public Date createDate;
 
-    private Date lastUpdateDate;
+    public Date lastUpdateDate;
 
-    private static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 1L;
 }

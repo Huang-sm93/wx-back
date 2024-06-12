@@ -1,9 +1,9 @@
 package com.wx.appbackend.controller;
 
 import com.wx.appbackend.common.ServiceData;
-import com.wx.appbackend.service.user.entity.UserPageDto;
+import com.wx.appbackend.service.user.entity.UserResDto;
 import com.wx.appbackend.service.user.entity.UserReqDto;
-import com.wx.appbackend.service.user.service.UserService;
+import com.wx.appbackend.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 @Api(value = "用户管理")
 public class UserController {
 
@@ -22,14 +22,14 @@ public class UserController {
 
     @GetMapping("/get")
     @ApiOperation(value = "获取用户信息")
-    public ServiceData<UserPageDto> getUser(@RequestParam("id") Long id)throws Exception{
+    public ServiceData<UserResDto> get(@RequestParam("id") Long id)throws Exception{
         ServiceData sd = new ServiceData();
         sd.setBo(userService.get(id));
         return sd;
     }
 
     @PostMapping("/getpage")
-    public ServiceData<List<UserPageDto>> getUser(@RequestBody Map<String, Object> map)throws Exception{
+    public ServiceData<List<UserResDto>> getPage(@RequestBody Map<String, Object> map)throws Exception{
         ServiceData sd = new ServiceData();
         sd.setBo(userService.getPage(map));
         return sd;
