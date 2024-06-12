@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wx.appbackend.user.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.wx.appbackend.user.entity.UserPageDto">
+<mapper namespace="com.wx.appbackend.service.user.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.user.entity.UserPageDto">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <id column="username" jdbcType="VARCHAR" property="userName"/>
         <id column="passwd" jdbcType="VARCHAR" property="passwd"/>
@@ -33,14 +33,14 @@
         set enabled_flag = 'N'
         where id = #{key,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.user.entity.User"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.user.entity.User"
             useGeneratedKeys="true">
         insert into users (username, passwd, sex, create_date, last_update_date )
         values (#{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
                 #{createDate,jdbcType=DATE}, #{lastUpdateDate,jdbcType=DATE})
     </insert>
 
-    <update id="updateByPrimaryKey" parameterType="com.wx.appbackend.user.entity.User">
+    <update id="updateByPrimaryKey" parameterType="com.wx.appbackend.service.user.entity.User">
         update users
         set
             username = #{userName,jdbcType=VARCHAR},

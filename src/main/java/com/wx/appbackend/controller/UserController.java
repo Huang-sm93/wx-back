@@ -1,9 +1,9 @@
 package com.wx.appbackend.controller;
 
 import com.wx.appbackend.common.ServiceData;
-import com.wx.appbackend.user.entity.UserPageDto;
-import com.wx.appbackend.user.entity.UserReqDto;
-import com.wx.appbackend.user.service.UserService;
+import com.wx.appbackend.service.user.entity.UserPageDto;
+import com.wx.appbackend.service.user.entity.UserReqDto;
+import com.wx.appbackend.service.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

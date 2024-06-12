@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wx.appbackend.myaccount.dao.AccountDao">
-    <resultMap id="BaseResultMap" type="com.wx.appbackend.myaccount.entity.AccountResDTO">
+<mapper namespace="com.wx.appbackend.service.myaccount.dao.AccountDao">
+    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.myaccount.entity.AccountResDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <id column="account" jdbcType="VARCHAR" property="account"/>
         <id column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
@@ -37,7 +37,7 @@
         set enabled_flag = 'N'
         where id = #{key,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.myaccount.entity.AccountReqDTO"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.myaccount.entity.AccountReqDTO"
             useGeneratedKeys="true">
         insert into users (account, user_name, password, birthday, phone_number, sex, last_login,
         create_time, update_time )
@@ -46,7 +46,7 @@
         #{lastLogin,jdbcType=DATE},#{create,jdbcType=DATE}, #{update,jdbcType=DATE})
     </insert>
 
-    <update id="update" parameterType="com.wx.appbackend.myaccount.entity.AccountReqDTO">
+    <update id="update" parameterType="com.wx.appbackend.service.myaccount.entity.AccountReqDTO">
         update users
         set
         account = #{account,jdbcType=VARCHAR},
