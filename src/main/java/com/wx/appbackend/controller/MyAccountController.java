@@ -2,49 +2,48 @@ package com.wx.appbackend.controller;
 
 import com.wx.appbackend.common.RetCode;
 import com.wx.appbackend.common.ServiceData;
-import com.wx.appbackend.service.myaccount.entity.AccountReqDTO;
-import com.wx.appbackend.service.myaccount.entity.AccountResDTO;
-import com.wx.appbackend.service.myaccount.AccountServiceImpl;
+import com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO;
+import com.wx.appbackend.service.myaccount.entity.MyAccountResDTO;
+import com.wx.appbackend.service.myaccount.MyAccountServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/account")
+@Api(tags = "我的账户信息")
 public class MyAccountController {
 
     @Autowired
-    private AccountServiceImpl service;
+    private MyAccountServiceImpl myAccountService;
 
-    @PostMapping("/getpage")
-    public ServiceData<String> getUser(@RequestBody Map<String, Object> map)throws Exception{
+    @GetMapping("/get/{userId}")
+    @ApiOperation(value = "获取账户记录")
+    public ServiceData<List<MyAccountResDTO>> getUser(@PathVariable Long userId)throws Exception{
         ServiceData sd = new ServiceData();
-
+        sd.setBo(myAccountService.getByUserId(userId));
         return sd;
     }
 
     @PostMapping("/insert")
-    public ServiceData<Integer> insert(@RequestBody AccountReqDTO reqDTO)throws Exception{
+    @ApiOperation(value = "记录一条")
+    public ServiceData<Integer> insert(@RequestBody MyAccountReqDTO reqDTO)throws Exception{
         ServiceData sd = new ServiceData();
-        sd.setBo(service.insert(reqDTO));
+        sd.setBo(myAccountService.insert(reqDTO));
         sd.setCode(RetCode.SUCCESS.toString());
         return sd;
     }
 
-    @PostMapping("/update")
-    public ServiceData<Integer> update(@RequestBody AccountReqDTO reqDTO)throws Exception{
+    @GetMapping("/delete")
+    @ApiOperation(value = "删除一条记录")
+    public ServiceData<MyAccountResDTO> get(@PathParam("id") Long id)throws Exception{
         ServiceData sd = new ServiceData();
-        service.update(reqDTO);
-        sd.setCode(RetCode.SUCCESS.toString());
-        return sd;
-    }
-
-    @GetMapping("/get")
-    public ServiceData<AccountResDTO> get(@PathParam("id") Long id)throws Exception{
-        ServiceData sd = new ServiceData();
-        service.selectById(id);
+        myAccountService.delete(id);
         sd.setCode(RetCode.SUCCESS.toString());
         return sd;
     }

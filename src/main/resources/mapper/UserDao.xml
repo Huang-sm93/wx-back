@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wx.appbackend.service.user.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.user.entity.UserResDto">
+    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.myaccount.entity.MyAccountResDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <id column="username" jdbcType="VARCHAR" property="userName"/>
-        <id column="passwd" jdbcType="VARCHAR" property="passwd"/>
+        <id column="account" jdbcType="VARCHAR" property="account"/>
+        <id column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <id column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <id column="password" jdbcType="VARCHAR" property="password"/>
+        <id column="birthday" jdbcType="VARCHAR" property="birthday"/>
         <id column="sex" jdbcType="VARCHAR" property="sex"/>
         <id column="enabled_flag" jdbcType="VARCHAR" property="enabledFlag"/>
         <result column="last_login" jdbcType="DATE" property="lastLogin"/>
-        <result column="create_date" jdbcType="DATE" property="createDate"/>
-        <result column="last_update_date" jdbcType="DATE" property="lastUpdateDate"/>
+        <result column="create_" jdbcType="DATE" property="create"/>
+        <result column="update_" jdbcType="DATE" property="update"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, username, passwd, sex, last_login, enabled_flag, create_date, last_update_date
+        id, account, user_name, password, phone_number, birthday, sex, last_login,
+        enabled_flag, create_time, update_time
     </sql>
     <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -28,25 +32,30 @@
         order by last_login DESC
         limit #{startrow, jdbcType=INTEGER},#{offset, jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <delete id="delete" parameterType="java.lang.Long">
         update users
         set enabled_flag = 'N'
         where id = #{key,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.user.entity.User"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.myaccount.entity.MyAccountEntity"
             useGeneratedKeys="true">
-        insert into users (username, passwd, sex, create_date, last_update_date )
-        values (#{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
-                #{createDate,jdbcType=DATE}, #{lastUpdateDate,jdbcType=DATE})
+        insert into users (account, user_name, password, birthday, phone_number, sex, last_login,
+        create_time, update_time )
+        values (#{account,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+        #{birthday,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
+        #{lastLogin,jdbcType=DATE},#{create,jdbcType=DATE}, #{update,jdbcType=DATE})
     </insert>
 
-    <update id="updateByPrimaryKey" parameterType="com.wx.appbackend.service.user.entity.User">
+    <update id="update" parameterType="com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO">
         update users
         set
-            username = #{userName,jdbcType=VARCHAR},
-            passwd = #{passwd, jdbcType=VARCHAR},
-            sex = #{sex, jdbcType=VARCHAR},
-            last_update_date = #{lastUpdateDate,jdbcType=DATE}
+        account = #{account,jdbcType=VARCHAR},
+        user_name = #{userName,jdbcType=VARCHAR},
+        password = #{password, jdbcType=VARCHAR},
+        birthday = #{birthday, jdbcType=VARCHAR},
+        phone_number = #{phoneNumber, jdbcType=VARCHAR},
+        sex = #{sex, jdbcType=VARCHAR},
+        update_time = #{update,jdbcType=DATE}
         where id = #{id, jdbcType=BIGINT}
         and enabled_flag = 'Y'
     </update>

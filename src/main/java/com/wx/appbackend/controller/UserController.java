@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/save")
     public ServiceData save(@RequestBody UserReqDto user)throws Exception{
         ServiceData sd = new ServiceData();
-        if (user.getId() != null){
+        if (user.id != null){
             sd.setBo(userService.update(user));
         }else {
             sd.setBo(userService.insert(user));

@@ -30,22 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int insert(UserReqDto userReqDto) throws Exception {
         User user = new User();
-        user.setPasswd(userReqDto.getPasswd());
-        user.setUserName(userReqDto.getUserName());
-        user.setSex(userReqDto.getSex());
-        user.setCreateDate(new Date());
-        user.setLastUpdateDate(new Date());
         return userDao.insert(user);
     }
 
     @Override
     public int update(UserReqDto userReqDto) throws Exception {
         User user = new User();
-        user.setPasswd(userReqDto.getPasswd());
-        user.setUserName(userReqDto.getUserName());
-        user.setSex(userReqDto.getSex());
-        user.setId(userReqDto.getId());
-        user.setLastUpdateDate(new Date());
         return userDao.updateByPrimaryKey(user);
     }
 }
