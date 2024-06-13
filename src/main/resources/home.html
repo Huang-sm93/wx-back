@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<table id="results-table">
+    <thead>
+    <tr>
+        <th>用户名</th>
+        <th>生日</th>
+        <th>性别</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+    </tr>
+    </thead>
+    <tbody id="results-body">
+    <!-- Results will be inserted here -->
+    </tbody>
+</table>
+
+<div id="pagination">
+    <button onclick="previousPage()">Previous</button>
+    <span id="page-info"></span>
+    <button onclick="nextPage()">Next</button>
+    <button onclick="previous10Page()">Previous+10</button>
+    <button onclick="next10Page()">Next+10</button>
+</div>
+
+<script src="search.js"></script>
+</body>
+</html>

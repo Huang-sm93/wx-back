@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MyAccountService {
     long insert(MyAccountReqDTO reqDTO) throws Exception;
-    List<MyAccountResDTO> getByUserId(long userId) throws Exception;
+    MyAccountResDTO getByUserId(long userId) throws Exception;
     void delete(long id) throws Exception;
 }

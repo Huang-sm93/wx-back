@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Intellij IDEA.
@@ -11,9 +13,9 @@ import java.sql.Timestamp;
  * Date:  2023/5/23
  */
 public class MyAccountResDTO implements Serializable {
-    public long id;
-    public BigDecimal amount;
-    public long userId;
-    public Timestamp createTime;
-    public Timestamp updateTime;
+    public int total;
+    public Map<String, List<MyAccountEntity>> monthGroupInfo;
+    public BigDecimal totalIncome;
+    public BigDecimal totalExpense;
+    public BigDecimal totalAmount;
 }

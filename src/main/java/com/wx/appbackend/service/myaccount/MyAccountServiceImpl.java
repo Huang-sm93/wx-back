@@ -6,10 +6,12 @@ import com.wx.appbackend.service.myaccount.dao.MyAccountDao;
 import com.wx.appbackend.service.myaccount.entity.MyAccountEntity;
 import com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountResDTO;
+import com.wx.appbackend.service.util.BigDecimalUtility;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -25,17 +27,29 @@ public class MyAccountServiceImpl implements MyAccountService {
     @Override
     public long insert(MyAccountReqDTO reqDTO) throws Exception {
         MyAccountEntity entity = ItemConvert.toMyAccountEntity(reqDTO);
+        entity.createTime = new Timestamp(System.currentTimeMillis());
+        entity.updateTime = entity.createTime;
         return myAccountDao.insert(entity);
     }
 
     @Override
-    public List<MyAccountResDTO> getByUserId(long userId) throws Exception {
+    public MyAccountResDTO getByUserId(long userId) throws Exception {
+        MyAccountResDTO resDTO = new MyAccountResDTO();
         List<MyAccountEntity> list = myAccountDao.getByUserId(userId);
-        if (CollectionUtils.isEmpty(list)){
-            return Lists.newArrayList();
+        if (CollectionUtils.isEmpty(list)) {
+            return resDTO;
         }
-        return list.stream().map(p->{return ItemConvert.toMyAccountResDTO(p);
-        }).collect(Collectors.toList());
+        resDTO.total = list.size();
+        resDTO.totalIncome = list.stream().filter(e -> BigDecimalUtility.isIncome(e.amount)).
+                map(p->p.amount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        resDTO.totalExpense = list.stream().filter(e -> !BigDecimalUtility.isIncome(e.amount)).
+                map(p->p.amount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        resDTO.totalAmount = resDTO.totalIncome.add(resDTO.totalExpense);
+        resDTO.monthGroupInfo = list.stream().collect(Collectors.groupingBy(e -> {
+            Date date = new Date(e.createTime.getTime());
+            return date.toString().substring(0, 7);
+        }));
+        return resDTO;
     }
 
     @Override

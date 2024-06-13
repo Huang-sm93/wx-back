@@ -24,7 +24,7 @@ public class MyAccountController {
 
     @GetMapping("/get/{userId}")
     @ApiOperation(value = "获取账户记录")
-    public ServiceData<List<MyAccountResDTO>> getUser(@PathVariable Long userId)throws Exception{
+    public ServiceData<MyAccountResDTO> getUser(@PathVariable Long userId)throws Exception{
         ServiceData sd = new ServiceData();
         sd.setBo(myAccountService.getByUserId(userId));
         return sd;

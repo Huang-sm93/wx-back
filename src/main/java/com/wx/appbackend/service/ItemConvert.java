@@ -57,16 +57,4 @@ public class ItemConvert {
         return myAccountEntity;
     }
 
-    public static MyAccountResDTO toMyAccountResDTO(MyAccountEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        MyAccountResDTO myAccountResDTO = new MyAccountResDTO();
-        myAccountResDTO.id = entity.id;
-        myAccountResDTO.userId = entity.userId;
-        myAccountResDTO.amount = entity.amount;
-        myAccountResDTO.createTime = entity.createTime;
-        myAccountResDTO.updateTime = entity.updateTime;
-        return myAccountResDTO;
-    }
 }

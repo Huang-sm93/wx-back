@@ -27,7 +27,8 @@
 
   <delete id="delete" parameterType="java.lang.Long">
     update my_account
-    set enabled_flag = 'N'
+    set enabled_flag = 'N',
+    update_time = now()
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
