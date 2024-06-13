@@ -2,13 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wx.appbackend.service.myaccount.dao.MyAccountDao">
   <resultMap id="BaseResultMap" type="com.wx.appbackend.service.myaccount.entity.MyAccountEntity">
-    <!-- @mbg.generated: generated automatically, do not modify! -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="enabled_flag" jdbcType="VARCHAR" property="enabledFlag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, amount, user_id, create_time, update_time

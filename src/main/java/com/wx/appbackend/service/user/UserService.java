@@ -10,7 +10,7 @@ public interface UserService {
 
     UserResDto get(Long id)throws Exception;
 
-    List<UserResDto> getPage(Map<String, Object> map) throws Exception;
+    List<UserResDto> getPage(UserReqDto user) throws Exception;
 
     int insert(UserReqDto user) throws Exception;
 

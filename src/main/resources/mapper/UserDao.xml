@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wx.appbackend.service.user.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.myaccount.entity.MyAccountResDTO">
+    <resultMap id="BaseResultMap" type="com.wx.appbackend.service.user.entity.UserEntity">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <id column="account" jdbcType="VARCHAR" property="account"/>
         <id column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
         <id column="user_name" jdbcType="VARCHAR" property="userName"/>
         <id column="password" jdbcType="VARCHAR" property="password"/>
-        <id column="birthday" jdbcType="VARCHAR" property="birthday"/>
+        <id column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
         <id column="sex" jdbcType="VARCHAR" property="sex"/>
         <id column="enabled_flag" jdbcType="VARCHAR" property="enabledFlag"/>
-        <result column="last_login" jdbcType="DATE" property="lastLogin"/>
-        <result column="create_" jdbcType="DATE" property="create"/>
-        <result column="update_" jdbcType="DATE" property="update"/>
+        <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, account, user_name, password, phone_number, birthday, sex, last_login,
@@ -29,24 +29,24 @@
         <include refid="Base_Column_List"/>
         from users
         where enabled_flag = 'Y'
-        order by last_login DESC
-        limit #{startrow, jdbcType=INTEGER},#{offset, jdbcType=INTEGER}
+        order by create_time DESC
+        limit #{pageIndex, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
     </select>
     <delete id="delete" parameterType="java.lang.Long">
         update users
         set enabled_flag = 'N'
         where id = #{key,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.myaccount.entity.MyAccountEntity"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wx.appbackend.service.user.entity.UserEntity"
             useGeneratedKeys="true">
         insert into users (account, user_name, password, birthday, phone_number, sex, last_login,
         create_time, update_time )
         values (#{account,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
-        #{birthday,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
-        #{lastLogin,jdbcType=DATE},#{create,jdbcType=DATE}, #{update,jdbcType=DATE})
+        #{birthday,jdbcType=TIMESTAMP}, #{phoneNumber,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
+        #{lastLogin,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
 
-    <update id="update" parameterType="com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO">
+    <update id="update" parameterType="com.wx.appbackend.service.user.entity.UserEntity">
         update users
         set
         account = #{account,jdbcType=VARCHAR},
@@ -55,7 +55,7 @@
         birthday = #{birthday, jdbcType=VARCHAR},
         phone_number = #{phoneNumber, jdbcType=VARCHAR},
         sex = #{sex, jdbcType=VARCHAR},
-        update_time = #{update,jdbcType=DATE}
+        update_time = #{update_time,jdbcType=DATE}
         where id = #{id, jdbcType=BIGINT}
         and enabled_flag = 'Y'
     </update>

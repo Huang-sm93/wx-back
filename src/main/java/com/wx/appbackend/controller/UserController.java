@@ -29,16 +29,16 @@ public class UserController {
     }
 
     @PostMapping("/getpage")
-    public ServiceData<List<UserResDto>> getPage(@RequestBody Map<String, Object> map)throws Exception{
+    public ServiceData<List<UserResDto>> getPage(@RequestBody UserReqDto reqDto)throws Exception{
         ServiceData sd = new ServiceData();
-        sd.setBo(userService.getPage(map));
+        sd.setBo(userService.getPage(reqDto));
         return sd;
     }
 
     @PostMapping("/save")
     public ServiceData save(@RequestBody UserReqDto user)throws Exception{
         ServiceData sd = new ServiceData();
-        if (user.id != null){
+        if (user.id != null && user.id > 0){
             sd.setBo(userService.update(user));
         }else {
             sd.setBo(userService.insert(user));

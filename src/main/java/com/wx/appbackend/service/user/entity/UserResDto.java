@@ -3,6 +3,7 @@ package com.wx.appbackend.service.user.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -11,33 +12,27 @@ import java.util.Date;
  */
 public class UserResDto implements Serializable {
 
-    /**
-     * id
-     */
-    private Long id;
+    public Long id;
 
-    private String userName;
+    public String account;
 
-    private String passwd;
+    public String userName;
 
+    public String password;
+
+    public Timestamp birthday;
+
+    public String phoneNumber;
     /**
      * 性别 男M 女W 默认值M
      */
-    private String sex;
+    public String sex;
 
-    /**
-     * 有效标识
-     */
-    private String enabledFlag;
+    public Timestamp lastLogin;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lastLogin;
+    public Timestamp createTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createDate;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lastUpdateDate;
+    public Timestamp updateTime;
 
     private static final long serialVersionUID = 1L;
 }
