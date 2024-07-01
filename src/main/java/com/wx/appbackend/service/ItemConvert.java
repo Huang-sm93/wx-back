@@ -1,11 +1,13 @@
 package com.wx.appbackend.service;
 
+import com.wx.appbackend.service.myaccount.entity.MyAccountDO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountEntity;
 import com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountResDTO;
 import com.wx.appbackend.service.user.entity.UserEntity;
 import com.wx.appbackend.service.user.entity.UserReqDto;
 import com.wx.appbackend.service.user.entity.UserResDto;
+import com.wx.appbackend.service.util.DateTimeUtility;
 
 /**
  * @Author: sm.huang
@@ -55,6 +57,19 @@ public class ItemConvert {
         myAccountEntity.userId = reqDTO.userId;
         myAccountEntity.amount = reqDTO.amount;
         return myAccountEntity;
+    }
+
+    public static MyAccountDO toMyAccountEntity(MyAccountEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        MyAccountDO myAccountDO = new MyAccountDO();
+        myAccountDO.id = entity.id;
+        myAccountDO.userId = entity.userId;
+        myAccountDO.amount = entity.amount;
+        myAccountDO.createTime = DateTimeUtility.formatTime(entity.createTime);
+        myAccountDO.updateTime = DateTimeUtility.formatTime(entity.updateTime);
+        return myAccountDO;
     }
 
 }

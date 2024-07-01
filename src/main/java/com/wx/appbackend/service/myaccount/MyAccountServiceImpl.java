@@ -3,6 +3,7 @@ package com.wx.appbackend.service.myaccount;
 import com.google.common.collect.Lists;
 import com.wx.appbackend.service.ItemConvert;
 import com.wx.appbackend.service.myaccount.dao.MyAccountDao;
+import com.wx.appbackend.service.myaccount.entity.MyAccountDO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountEntity;
 import com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountResDTO;
@@ -39,15 +40,15 @@ public class MyAccountServiceImpl implements MyAccountService {
         if (CollectionUtils.isEmpty(list)) {
             return resDTO;
         }
+        List<MyAccountDO> resList = list.stream().map(p->ItemConvert.toMyAccountEntity(p)).collect(Collectors.toList());
         resDTO.total = list.size();
         resDTO.totalIncome = list.stream().filter(e -> BigDecimalUtility.isIncome(e.amount)).
                 map(p->p.amount).reduce(BigDecimal.ZERO, BigDecimal::add);
         resDTO.totalExpense = list.stream().filter(e -> !BigDecimalUtility.isIncome(e.amount)).
                 map(p->p.amount).reduce(BigDecimal.ZERO, BigDecimal::add);
         resDTO.totalAmount = resDTO.totalIncome.add(resDTO.totalExpense);
-        resDTO.monthGroupInfo = list.stream().collect(Collectors.groupingBy(e -> {
-            Date date = new Date(e.createTime.getTime());
-            return date.toString().substring(0, 7);
+        resDTO.monthGroupInfo = resList.stream().collect(Collectors.groupingBy(e -> {
+            return e.createTime.substring(0, 7);
         }));
         return resDTO;
     }

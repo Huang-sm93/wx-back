@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class MyAccountResDTO implements Serializable {
     public int total;
-    public Map<String, List<MyAccountEntity>> monthGroupInfo;
+    public Map<String, List<MyAccountDO>> monthGroupInfo;
     public BigDecimal totalIncome;
     public BigDecimal totalExpense;
     public BigDecimal totalAmount;
