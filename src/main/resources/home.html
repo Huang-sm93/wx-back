@@ -1,47 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Search Results</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 5px;
-            text-align: left;
-        }
-        .search-container {
-            margin-bottom: 20px;
-        }
-    </style>
+    <meta charset="utf-8">
 </head>
 <body>
-
-<table id="results-table">
-    <thead>
-    <tr>
-        <th>用户名</th>
-        <th>生日</th>
-        <th>性别</th>
-        <th>创建时间</th>
-        <th>修改时间</th>
-    </tr>
-    </thead>
-    <tbody id="results-body">
-    <!-- Results will be inserted here -->
-    </tbody>
-</table>
-
-<div id="pagination">
-    <button onclick="previousPage()">Previous</button>
-    <span id="page-info"></span>
-    <button onclick="nextPage()">Next</button>
-    <button onclick="previous10Page()">Previous+10</button>
-    <button onclick="next10Page()">Next+10</button>
+<style>
+    .col-1 {
+      float: left; /* 向左浮动 */
+      margin: 5px; /* 设定间距 */
+      background-color: skyblue; /* 设定背景颜色 */
+    }
+    .col-2 {
+      float: left; /* 向左浮动 */
+      margin: 5px; /* 设定间距 */
+    }
+    .title {
+      flex-direction: column;
+    }
+    .content {
+      flex-direction: column;
+    }
+</style>
+<div id="app">
+    <div class="title">
+        <div class="col-1">编号</div>
+        <div class="col-1">名字</div>
+    </div>
+    <div class="content">
+        {{ items }}
+    </div>
+    <div>
+        <button @click="getAccount">获取账户</button>
+    </div>
 </div>
-
-<script src="search.js"></script>
+<script src="https://cdn.staticfile.net/vue/3.2.36/vue.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type = "text/javascript">
+    const app = Vue.createApp({
+        data() {
+            return {
+                items: ''
+            }
+        },
+        methods: {
+            getAccount() {
+                axios.get('http://47.95.172.206:8080/account/get/8888')
+                    .then(response => {
+                        console.log(response.data);
+                        this.items = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+    app.mount('#app')
+</script>
 </body>
 </html>

@@ -2,17 +2,15 @@ package com.wx.appbackend.controller;
 
 import com.wx.appbackend.common.RetCode;
 import com.wx.appbackend.common.ServiceData;
+import com.wx.appbackend.service.myaccount.MyAccountServiceImpl;
 import com.wx.appbackend.service.myaccount.entity.MyAccountReqDTO;
 import com.wx.appbackend.service.myaccount.entity.MyAccountResDTO;
-import com.wx.appbackend.service.myaccount.MyAccountServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/account")
